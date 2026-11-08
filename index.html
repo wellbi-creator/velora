@@ -1,0 +1,2179 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#080B18">
+<title>VELORA</title>
+<style>
+/* VELORA design system */
+:root{
+  --bg:#080B18; --bg2:#10162A; --p:#8B5CF6; --p2:#A78BFA; --cyan:#42D9E8; --blue:#477BFF;
+  --text:#F5F5FF; --text2:#9BA5C7; --card:rgba(24,30,58,.62); --line:rgba(167,139,250,.18);
+  --ok:#4ADE80; --bad:#FB7185; --gold:#FBBF24;
+  --r-s:12px; --r-m:18px; --r-l:26px; --sp:16px;
+  --shadow:0 10px 30px rgba(0,0,0,.35); --glow:0 0 24px rgba(139,92,246,.45);
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --nav-h:68px;
+}
+[data-theme="light"]{
+  --bg:#F2F3FF; --bg2:#E4E7FA; --text:#12163A; --text2:#566089; --card:rgba(255,255,255,.8);
+  --line:rgba(99,102,241,.2); --shadow:0 10px 26px rgba(70,80,160,.18); --glow:0 0 22px rgba(139,92,246,.25);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow-x:hidden;background:var(--bg);color:var(--text);
+  font:16px/1.4 -apple-system,"SF Pro Text","Segoe UI",Roboto,system-ui,sans-serif;touch-action:manipulation;overscroll-behavior:none}
+#bg{position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.35),transparent 60%),
+  radial-gradient(700px 500px at -10% 40%,rgba(66,217,232,.18),transparent 60%),
+  linear-gradient(180deg,var(--bg),var(--bg2))}
+#view{min-height:100%;padding:calc(var(--sat) + 14px) var(--sp) calc(var(--nav-h) + var(--sab) + 24px);max-width:640px;margin:0 auto;animation:fade .35s ease}
+#view.nonav{padding-bottom:calc(var(--sab) + 24px)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px} h2{font-size:19px;margin:22px 0 10px} h3{font-size:17px;margin:0}
+p{margin:0 0 8px} .muted{color:var(--text2)} .row{display:flex;align-items:center;gap:12px} .between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px} .center{text-align:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:16px;box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.card+.card{margin-top:12px}
+.btn{appearance:none;border:0;cursor:pointer;font:600 16px inherit;font-family:inherit;color:#fff;min-height:48px;padding:0 20px;border-radius:var(--r-m);
+  background:linear-gradient(135deg,var(--p),var(--blue));box-shadow:var(--glow);transition:transform .12s,filter .2s}
+.btn:active{transform:scale(.96)} .btn:disabled{opacity:.45;filter:grayscale(.5);cursor:not-allowed}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);box-shadow:none}
+.btn.cyan{background:linear-gradient(135deg,var(--cyan),var(--blue))} .btn.block{width:100%}
+.btn.sm{min-height:40px;padding:0 14px;font-size:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:14px}
+.badge{font-size:12px;padding:3px 8px;border-radius:99px;background:rgba(251,191,36,.16);color:var(--gold);font-weight:600}
+.bar{height:10px;border-radius:99px;background:rgba(155,165,199,.2);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--cyan),var(--p));transition:width .5s}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:20px;
+  background:linear-gradient(135deg,var(--p),var(--cyan));border:2px solid var(--p2);box-shadow:var(--glow);color:#fff}
+.icon{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.icon.fill{fill:currentColor;stroke:none}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-around;padding:8px 8px calc(var(--sab) + 8px);
+  background:rgba(12,16,34,.82);border-top:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+[data-theme="light"] #nav{background:rgba(255,255,255,.85)}
+#nav.hidden{display:none}
+#nav a{flex:1;max-width:110px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:14px;color:var(--text2);text-decoration:none;font-size:12px;font-weight:600;transition:.2s}
+#nav a.on{color:var(--cyan);background:rgba(139,92,246,.18)}
+.game{display:flex;gap:14px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
+.game .gi{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#fff;flex:none}
+.game[aria-disabled="true"]{opacity:.55;cursor:default}
+.opt{display:block;width:100%;text-align:left;margin-top:10px;padding:14px 16px;min-height:52px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--card);color:var(--text);font:600 16px inherit;font-family:inherit;cursor:pointer;transition:.15s}
+.opt:active{transform:scale(.98)} .opt.ok{background:rgba(74,222,128,.22);border-color:var(--ok)} .opt.bad{background:rgba(251,113,133,.22);border-color:var(--bad)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none} .tabs::-webkit-scrollbar{display:none}
+.mem{display:grid;gap:10px}
+.tile{aspect-ratio:1;border-radius:16px;border:1px solid var(--line);background:linear-gradient(145deg,#1b2245,#10162A);display:grid;place-items:center;cursor:pointer;transition:transform .3s;color:transparent}
+.tile.open,.tile.done{background:var(--card);transform:rotateY(0)} .tile.done{border-color:var(--ok);box-shadow:0 0 14px rgba(74,222,128,.4)}
+.key{min-width:34px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font:700 16px inherit;font-family:inherit}
+.key:disabled{opacity:.3}
+.keys{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
+.word{display:flex;gap:8px;justify-content:center;margin:18px 0}
+.word b{width:34px;height:44px;border-bottom:3px solid var(--p2);display:grid;place-items:center;font-size:24px}
+.reactpad{height:280px;border-radius:var(--r-l);display:grid;place-items:center;font-size:22px;font-weight:700;text-align:center;padding:16px;user-select:none;transition:background .1s}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:grid;place-items:end center;animation:fade .2s}
+.sheet{width:100%;max-width:640px;background:var(--bg2);border-radius:var(--r-l) var(--r-l) 0 0;padding:20px 16px calc(var(--sab) + 20px);border:1px solid var(--line)}
+#toast{position:fixed;left:50%;top:calc(var(--sat) + 14px);transform:translate(-50%,-80px);z-index:60;background:var(--bg2);border:1px solid var(--p2);padding:10px 18px;border-radius:99px;font-weight:600;transition:transform .35s;max-width:90%}
+#toast.show{transform:translate(-50%,0)}
+.lumi{animation:float 3.6s ease-in-out infinite} @keyframes float{50%{transform:translateY(-8px)}}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px;gap:4px}
+.seg button{flex:1;min-height:40px;border:0;border-radius:99px;background:none;color:var(--text2);font:600 14px inherit;font-family:inherit}
+.seg button.on{background:linear-gradient(135deg,var(--p),var(--blue));color:#fff}
+input[type=range]{width:100%;accent-color:var(--p)}
+input[type=text]{width:100%;min-height:48px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 14px;font:16px inherit;font-family:inherit}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tile2{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0!important;padding:14px 8px;text-decoration:none;color:var(--text);transition:transform .15s}
+.tile2:active{transform:scale(.96)} .tile2 .icon{width:30px;height:30px;color:var(--cyan)}
+.hero{border-color:rgba(167,139,250,.35);box-shadow:0 14px 40px rgba(139,92,246,.3)}
+.game{transition:transform .15s,box-shadow .2s} .game:active{transform:scale(.98)}
+.card.game{background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(24,30,58,.7))}
+#nav a.on{box-shadow:0 0 18px rgba(139,92,246,.45) inset}
+#nav a.on .icon{filter:drop-shadow(0 0 6px var(--cyan))}
+.shopitem{transition:transform .15s} .shopitem:active{transform:scale(.97)}
+.btn{background-size:200% 100%;position:relative;overflow:hidden}
+.btn:not(.ghost)::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.25) 50%,transparent 60%);transform:translateX(-120%);animation:shine 4s infinite}
+@keyframes shine{60%,100%{transform:translateX(120%)}}
+button.chip{color:var(--text);font-family:inherit;cursor:pointer}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:18px 0 14px;padding:8px 0 0;background:radial-gradient(260px 120px at 50% 100%,rgba(139,92,246,.35),transparent 70%)}
+.pl{flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pav{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:22px;background:#1b2245;border:3px solid var(--p2);box-shadow:var(--glow);color:#fff}
+.pl.p1 .pav{width:66px;height:66px;font-size:26px;border-color:var(--gold)}
+.pn{font-size:13px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px 12px 0 0;background:linear-gradient(180deg,#232b55,#10162A);border-top:4px solid var(--p);box-shadow:0 -6px 20px rgba(139,92,246,.35)}
+.pb i{font-style:normal;font-size:34px;font-weight:800;color:var(--p2)} .pb small{color:var(--text2);font-size:12px;margin-bottom:6px}
+.p1 .pb{height:120px}.p2 .pb{height:92px}.p3 .pb{height:72px}
+.chip{white-space:nowrap}
+/* ---- results & intro polish ---- */
+.intro-hero{text-align:center;padding-top:6px}
+.intro-cover{display:inline-block;filter:drop-shadow(0 12px 28px rgba(139,92,246,.55));animation:float 4s ease-in-out infinite;margin-bottom:8px}
+.res{position:relative}
+.res-glow{position:absolute;left:50%;top:-10px;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.35),transparent 65%);z-index:-1;animation:pulse 3s ease-in-out infinite}
+.res-glow.w{background:radial-gradient(circle,rgba(251,191,36,.38),transparent 65%)}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.7}}
+.ring{position:relative;display:grid;place-items:center}
+.ring svg{position:absolute;inset:0;filter:drop-shadow(0 0 10px rgba(66,217,232,.45))}
+.ring-arc{animation:arc 1.2s .15s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes arc{to{stroke-dashoffset:var(--to)}}
+.ring-t{position:relative;display:flex;flex-direction:column;line-height:1.1}.ring-t b{font-size:30px}.ring-t span{font-size:12px;color:var(--text2)}
+.rv{font-size:26px;background:linear-gradient(135deg,var(--cyan),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.res-r>div{animation:pop .5s both}.res-r>div+div{animation-delay:.12s}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.lvl-up{animation:pop .6s .6s both,shine2 2s 1s infinite}@keyframes shine2{50%{box-shadow:0 0 18px rgba(251,191,36,.6)}}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.confetti i{position:absolute;top:-20px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(var(--r));opacity:.9}}
+@media (prefers-reduced-motion:reduce){.confetti,.res-glow,.intro-cover,.lumi{animation:none!important}}
+/* ---- game screens ---- */
+.opt{display:flex;align-items:center;gap:12px;animation:slideIn .4s both;transition:transform .15s,background .2s,border-color .2s}
+@keyframes slideIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.ol{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-size:14px;font-weight:800;background:linear-gradient(135deg,var(--p),var(--blue));color:#fff}
+.opt.ok .ol{background:var(--ok)}.opt.bad .ol{background:var(--bad)}
+.opt.ok{animation:okpulse .5s}.opt.bad{animation:shake .4s}
+@keyframes okpulse{40%{transform:scale(1.03);box-shadow:0 0 22px rgba(74,222,128,.55)}}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+#tb.low{background:linear-gradient(90deg,var(--bad),var(--gold))}
+.combo{color:var(--gold);font-weight:700}
+.tile{position:relative;perspective:600px;background:linear-gradient(145deg,#2a2468,#141a3a)}
+.tile::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:.5;background:radial-gradient(circle at 50% 50%,rgba(66,217,232,.5) 0 3px,transparent 4px),repeating-linear-gradient(45deg,transparent 0 8px,rgba(167,139,250,.14) 8px 9px)}
+.tile.open::before,.tile.done::before{display:none}
+.tile.flip{animation:flip .35s ease}
+@keyframes flip{from{transform:rotateY(90deg) scale(.9)}to{transform:none}}
+.tile.done{animation:matched .5s}
+@keyframes matched{40%{transform:scale(1.14)}}
+.reactpad{position:relative;overflow:hidden;box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+.reactpad[data-s=go]{animation:gopulse .5s infinite alternate;font-size:34px}
+.reactpad[data-s=hit]{font-size:44px}
+.reactpad[data-s=foul]{animation:shake .4s}
+@keyframes gopulse{to{box-shadow:inset 0 0 90px rgba(255,255,255,.4)}}
+.rip{position:absolute;width:20px;height:20px;margin:-10px;border-radius:50%;border:3px solid #fff;pointer-events:none;animation:rip .7s ease-out forwards}
+@keyframes rip{to{transform:scale(18);opacity:0}}
+/* ---- shop & world ---- */
+.tryon{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;border-radius:var(--r-l);padding:16px;margin-bottom:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.tryon-glow{position:absolute;inset:0;background:radial-gradient(200px 120px at 50% 100%,rgba(255,255,255,.25),transparent 70%)}
+.tryon>*{position:relative}
+.shopitem{position:relative}
+.rtag{position:absolute;top:8px;left:8px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(155,165,199,.2);color:var(--text2)}
+.r-rare{border-color:var(--cyan);box-shadow:0 0 16px rgba(66,217,232,.3)}.r-rare .rtag{background:rgba(66,217,232,.18);color:var(--cyan)}
+.r-epic{border-color:var(--p2);box-shadow:0 0 22px rgba(167,139,250,.5);background:linear-gradient(160deg,rgba(139,92,246,.28),var(--card))}.r-epic .rtag{background:rgba(167,139,250,.25);color:var(--p2)}
+.terr.open{border-color:rgba(66,217,232,.45);box-shadow:0 0 22px rgba(66,217,232,.18)}
+.dq{background:linear-gradient(135deg,rgba(251,191,36,.16),var(--card))}
+/* ---- multiplayer ---- */
+.roomcode{font-size:44px;font-weight:800;letter-spacing:10px;margin:6px 0;background:linear-gradient(135deg,var(--cyan),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer;padding-left:10px}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slot{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:var(--r-m);border:1px dashed var(--line);text-align:center;min-height:112px;justify-content:center}
+.slot.on{border-style:solid;background:var(--card)}
+.pav.pulse{animation:pulse 1.6s ease-in-out infinite;opacity:.6}
+.vs{padding-top:30px}.vsrow{display:flex;align-items:center;justify-content:space-around;margin:28px 0}
+.vsp{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px;animation:pop .6s both}
+.vsx{font-size:44px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--bad));-webkit-background-clip:text;background-clip:text;color:transparent;animation:pop .8s .3s both}
+.sb{padding:10px 14px}
+.sbrow{display:flex;align-items:center;gap:8px;padding:4px 0}.sbrow.me .sbn{font-weight:700}
+.sbn{min-width:64px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+/* ---- Welcome & legal ---- */
+.welcome{--bg:#080B18;--bg2:#10162A;--text:#F5F5FF;--text2:#9BA5C7;--card:rgba(24,30,58,.72);--line:rgba(167,139,250,.22);--shadow:0 10px 30px rgba(0,0,0,.35);
+  position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;background:#080B18;color:var(--text);height:100vh;height:100dvh;animation:wfade .45s ease;overflow:hidden}
+.welcome.out{animation:wout .26s ease forwards}
+@keyframes wfade{from{opacity:0}to{opacity:1}} @keyframes wout{to{opacity:0;transform:scale(1.03)}}
+html.welcome-open,html.welcome-open body{overflow:hidden}
+.w-glow{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.55}
+.w-glow.a{width:300px;height:300px;right:-90px;top:-80px;background:rgba(139,92,246,.55);animation:pulse 6s ease-in-out infinite}
+.w-glow.b{width:260px;height:260px;left:-100px;top:38%;background:rgba(66,217,232,.3);animation:pulse 7s 1s ease-in-out infinite}
+.w-scroll{position:relative;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(var(--sat) + 18px) 16px 12px}
+.w-in{max-width:560px;margin:0 auto}
+.w-head{text-align:center;margin-bottom:14px}.w-logo{display:flex;justify-content:center;margin-bottom:2px}
+.w-lumi{display:flex;justify-content:center;margin:2px 0 -4px;filter:drop-shadow(0 8px 22px rgba(139,92,246,.6))}
+.w-head h1{font-size:26px;margin:4px 0 4px}
+.doccard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin:0 0 10px!important;padding:13px 14px;color:var(--text);font:inherit;text-decoration:none;cursor:pointer;animation:slideIn .45s both;transition:transform .15s,border-color .2s}
+button.doccard{border:1px solid var(--line);background:var(--card);border-radius:var(--r-l)}
+.doccard:active{transform:scale(.98)} .doccard:hover{border-color:var(--p2)}
+.doccard .icon{width:22px;height:22px;color:var(--text2)}
+.di{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(66,217,232,.22));box-shadow:0 0 16px rgba(139,92,246,.3)}
+.di .icon{color:var(--cyan)!important}
+.w-ok .icon{color:var(--ok)!important}
+.w-foot{position:relative;padding:12px 16px calc(var(--sab) + 14px);background:rgba(10,14,32,.88);border-top:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.w-foot>*{max-width:560px;margin-left:auto;margin-right:auto}
+.w-check{display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer;font-size:15px;line-height:1.3;-webkit-user-select:none;user-select:none}
+.w-check input{position:absolute;opacity:0;width:1px;height:1px}
+.w-check .box{flex:none;width:30px;height:30px;border-radius:10px;border:2px solid var(--p2);display:grid;place-items:center;transition:.2s;background:rgba(139,92,246,.1)}
+.w-check .box .icon{width:18px;height:18px;opacity:0;transform:scale(.4);transition:.2s;color:#fff}
+.w-check input:checked+.box{background:linear-gradient(135deg,var(--p),var(--cyan));border-color:transparent;box-shadow:0 0 16px rgba(66,217,232,.5)}
+.w-check input:checked+.box .icon{opacity:1;transform:none}
+.w-check input:focus-visible+.box{outline:2px solid var(--cyan);outline-offset:2px}
+.w-foot .btn{letter-spacing:.6px}
+.legal{padding:16px}.legal .ld+.ld{margin-top:16px}
+.legal h3{font-size:16px;margin:0 0 6px;color:var(--cyan)} .legal p{font-size:15px;line-height:1.5;margin:0 0 8px;color:var(--text)}
+.legal ul{margin:0 0 6px;padding-left:20px}.legal li{font-size:15px;line-height:1.5;margin-bottom:4px}
+.doccard .di+div b{font-size:16px}
+.w-head h1{font-size:23px;margin:0 0 2px}.w-head p{font-size:14px;margin:0}
+.w-scroll{padding-top:calc(var(--sat) + 12px)}
+.doccard{padding:11px 13px;gap:11px}.doccard .muted{font-size:13px;line-height:1.3}.doccard b{font-size:15px;line-height:1.25}
+.di{width:40px;height:40px;border-radius:12px}
+@media (max-height:640px){.w-lumi{display:none}.w-head h1{font-size:21px}}
+
+</style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+<main id="view"></main>
+<nav id="nav" aria-label="Основная навигация"></nav>
+<div id="modal"></div>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+const __m = {};
+__m["services/telegram"] = (() => {
+const __exp = {};
+// Telegram Mini Apps wrapper with safe browser fallback.
+// NOTE: user data from initDataUnsafe is for display only. Server must verify initData (see supabase/functions, stage 7).
+const tg = window.Telegram?.WebApp;
+const inTelegram = !!(tg && tg.initData);
+
+function initTelegram() {
+  if (!tg) return;
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor?.('#080B18'); tg.setBackgroundColor?.('#080B18');
+    tg.disableVerticalSwipes?.();
+  } catch (e) { console.warn('tg init', e); }
+}
+
+function tgUser() {
+  const u = tg?.initDataUnsafe?.user;
+  return u ? { id: String(u.id), name: u.first_name || u.username || 'Игрок' } : null;
+}
+function tgColorScheme() { return inTelegram ? tg.colorScheme : null; }
+function startParam() { return tg?.initDataUnsafe?.start_param || new URLSearchParams(location.search).get('start') || ''; }
+
+function haptic(type = 'light') {
+  try {
+    const h = tg?.HapticFeedback; if (!h) return;
+    if (type === 'success' || type === 'error' || type === 'warning') h.notificationOccurred(type);
+    else h.impactOccurred(type);
+  } catch {}
+}
+
+let backHandler = null;
+function setBack(fn) {
+  const bb = tg?.BackButton;
+  if (backHandler && bb) bb.offClick(backHandler);
+  backHandler = fn;
+  if (!bb) return;
+  if (fn) { bb.onClick(fn); bb.show(); } else bb.hide();
+}
+const initDataRaw = () => tg?.initData || '';
+
+Object.assign(__exp, { inTelegram, initTelegram, tgUser, tgColorScheme, startParam, haptic, setBack, initDataRaw });
+return __exp;
+})();
+
+__m["services/store"] = (() => {
+const __exp = {};
+// Local demo store. In production all balances/XP are computed server-side (Supabase RPC) — see README.
+const KEY = 'velora.v1';
+const day = () => new Date().toISOString().slice(0, 10);
+
+const def = () => ({
+  id: 'V-' + Math.random().toString(36).slice(2, 8).toUpperCase(),
+  nick: 'Игрок', created: Date.now(), xp: 0, coins: 100, crystals: 5,
+  streak: 0, lastVisit: '', history: [], stats: {}, claimed: {}, daily: {},
+  settings: { music: false, sfx: true, volume: 0.6, theme: 'dark' }
+});
+
+let s;
+try { s = { ...def(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { s = def(); }
+s.settings = { ...def().settings, ...s.settings };
+const subs = new Set();
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} subs.forEach(f => f()); };
+
+const state = () => s;
+const onChange = f => { subs.add(f); return () => subs.delete(f); };
+const need = lvl => 100 + (lvl - 1) * 50;
+function levelInfo() {
+  let xp = s.xp, lvl = 1;
+  while (xp >= need(lvl)) { xp -= need(lvl); lvl++; }
+  return { level: lvl, cur: xp, max: need(lvl), pct: Math.round(xp / need(lvl) * 100) };
+}
+function setNick(n) { n = String(n).trim().slice(0, 16); if (n) { s.nick = n; save(); } }
+function setSetting(k, v) { s.settings[k] = v; save(); }
+
+function touchVisit() {
+  const t = day();
+  if (s.lastVisit === t) return;
+  const y = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+  s.streak = s.lastVisit === y ? s.streak + 1 : 1;
+  s.lastVisit = t; save();
+}
+
+function playedToday() { return s.daily[day()]?.played || 0; }
+const DAILY = { goal: 3, coins: 50, crystals: 1 };
+const dailyClaimed = () => !!s.claimed[day()];
+function claimDaily() {
+  if (dailyClaimed() || playedToday() < DAILY.goal) return false;
+  s.claimed[day()] = true; s.coins += DAILY.coins; s.crystals += DAILY.crystals; save(); return true;
+}
+
+// Reward formula (demo). Capped per game so clients cannot inflate it once moved to server.
+function recordGame({ mode, score, max, win, diff }) {
+  const mult = { easy: 1, normal: 1.5, hard: 2 }[diff] || 1;
+  const ratio = max ? Math.min(1, score / max) : 0;
+  const xp = Math.round((10 + 30 * ratio) * mult);
+  const coins = win ? Math.round(10 * mult + 10 * ratio) : Math.round(3 * ratio);
+  const before = levelInfo().level;
+  s.xp += xp; s.coins += coins;
+  const lvlUp = levelInfo().level > before;
+  if (lvlUp) s.coins += 25;
+  const st = (s.stats[mode] ||= { played: 0, wins: 0, best: 0 });
+  st.played++; if (win) st.wins++; st.best = Math.max(st.best, score);
+  const d = (s.daily[day()] ||= { played: 0 }); d.played++;
+  s.history.unshift({ mode, score, max, win, diff, xp, coins, t: Date.now() });
+  s.history.length = Math.min(s.history.length, 50);
+  save();
+  return { xp, coins, lvlUp };
+}
+const totals = () => {
+  const v = Object.entries(s.stats);
+  return {
+    played: v.reduce((a, [, x]) => a + x.played, 0), wins: v.reduce((a, [, x]) => a + x.wins, 0),
+    fav: v.sort((a, b) => b[1].played - a[1].played)[0]?.[0] || null
+  };
+};
+
+// ---- Shop / inventory / achievements (demo, local). Server-side RPCs replace these in stage 7. ----
+s.owned ||= []; s.equipped ||= {}; s.tx ||= []; s.ach ||= {};
+const SHOP = [
+  { id: 'fr_aurora', kind: 'frame', name: 'Рамка «Аврора»', c: ['#42D9E8', '#8B5CF6'], price: 60, cur: 'coins' },
+  { id: 'fr_sun', kind: 'frame', name: 'Рамка «Рассвет»', c: ['#FBBF24', '#FB7185'], price: 90, cur: 'coins' },
+  { id: 'fr_void', kind: 'frame', name: 'Рамка «Бездна»', c: ['#477BFF', '#10162A'], price: 8, cur: 'crystals' },
+  { id: 'bg_night', kind: 'bg', name: 'Фон «Ночной лес»', c: ['#0f766e', '#1e1b4b'], price: 80, cur: 'coins' },
+  { id: 'bg_dusk', kind: 'bg', name: 'Фон «Закат»', c: ['#f97316', '#7c3aed'], price: 120, cur: 'coins' },
+  { id: 'bg_ice', kind: 'bg', name: 'Фон «Ледяной купол»', c: ['#67e8f9', '#3b82f6'], price: 10, cur: 'crystals' },
+  { id: 'sk_mint', kind: 'skin', name: 'Луми «Мята»', c: ['#6ee7b7', '#0ea5e9'], price: 150, cur: 'coins', hue: 120 },
+  { id: 'sk_rose', kind: 'skin', name: 'Луми «Роза»', c: ['#f9a8d4', '#a855f7'], price: 150, cur: 'coins', hue: 300 },
+  { id: 'sk_sun', kind: 'skin', name: 'Луми «Солнце»', c: ['#fde047', '#f97316'], price: 12, cur: 'crystals', hue: 190 },
+  { id: 'fr_crystal', kind: 'frame', name: 'Рамка «Кристалл»', c: ['#42D9E8', '#8B5CF6'], price: 0, cur: 'coins', season: true },
+  { id: 'bg_crystal', kind: 'bg', name: 'Фон «Кристальная пещера»', c: ['#0e7490', '#4c1d95'], price: 0, cur: 'coins', season: true },
+  { id: 'sk_crystal', kind: 'skin', name: 'Луми «Кристалл»', c: ['#67e8f9', '#a78bfa'], price: 0, cur: 'coins', hue: 215, season: true }
+];
+const KINDS = { frame: 'Рамки', bg: 'Фоны', skin: 'Образы Луми' };
+const item = id => SHOP.find(i => i.id === id);
+const owns = id => s.owned.includes(id);
+function buy(id) {
+  const it = item(id); if (!it) return 'Предмет не найден';
+  if (owns(id)) return 'Уже куплено';
+  if (s[it.cur] < it.price) return 'Не хватает ' + (it.cur === 'coins' ? 'монет' : 'кристаллов');
+  s[it.cur] -= it.price; s.owned.push(id);
+  s.tx.unshift({ t: Date.now(), d: -it.price, cur: it.cur, why: it.name }); s.tx.length = Math.min(s.tx.length, 50);
+  save(); return null;
+}
+function equip(id) {
+  const it = item(id); if (!it || !owns(id)) return;
+  s.equipped[it.kind] = s.equipped[it.kind] === id ? null : id; save();
+}
+const equippedItem = kind => item(s.equipped[kind]);
+
+const ACH = [
+  ['first', 'Первый шаг', 'Сыграй первую игру', () => totals().played >= 1, 20],
+  ['play10', 'Игроман', 'Сыграй 10 игр', () => totals().played >= 10, 40],
+  ['win5', 'Чемпион', 'Одержи 5 побед', () => totals().wins >= 5, 50],
+  ['streak3', 'В ритме', 'Серия 3 дня подряд', () => s.streak >= 3, 40],
+  ['lvl5', 'Опытный', 'Достигни 5 уровня', () => levelInfo().level >= 5, 60],
+  ['rich', 'Копилка', 'Накопи 300 монет', () => s.coins >= 300, 30],
+  ['fast', 'Молния', 'Реакция быстрее 300 мс (в среднем)', () => (s.stats.reaction?.best || 0) >= 260, 50],
+  ['all', 'Исследователь', 'Попробуй все 7 игр', () => Object.keys(s.stats).filter(k => k !== 'daily').length >= 7, 70]
+].map(([id, name, desc, test, reward]) => ({ id, name, desc, test, reward }));
+// Grants rewards once per achievement. Returns newly unlocked list.
+function checkAchievements() {
+  const fresh = [];
+  for (const a of ACH) if (!s.ach[a.id] && a.test()) { s.ach[a.id] = Date.now(); s.coins += a.reward; s.tx.unshift({ t: Date.now(), d: a.reward, cur: 'coins', why: 'Достижение: ' + a.name }); fresh.push(a); }
+  if (fresh.length) save(); return fresh;
+}
+
+// Server is the source of truth when online: overwrite local mirror.
+function applyServer(p, owned, ach) {
+  if (p) { s.nick = p.nickname; s.xp = p.xp; s.coins = p.coins; s.crystals = p.crystals; s.streak = p.streak; s.equipped = p.equipped || {}; }
+  if (owned) s.owned = owned;
+  if (ach) s.ach = ach;
+  save();
+}
+
+// Legal documents acceptance (local mirror; the server record in terms_acceptances is the reliable one).
+const terms = () => s.terms || null;
+function setTerms(o) { s.terms = o; save(); }
+
+Object.assign(__exp, { state, onChange, need, levelInfo, setNick, setSetting, touchVisit, playedToday, DAILY, dailyClaimed, claimDaily, recordGame, totals, SHOP, KINDS, item, owns, buy, equip, equippedItem, ACH, checkAchievements, applyServer, terms, setTerms });
+return __exp;
+})();
+
+__m["services/audio"] = (() => {
+const __exp = {};
+// Original sounds synthesised with Web Audio API. No external audio files.
+const { state } = __m["services/store"];
+let ctx, master, musicNodes = null;
+
+function ensure() {
+  if (!ctx) {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+    ctx = new AC(); master = ctx.createGain(); master.connect(ctx.destination);
+  }
+  if (ctx.state === 'suspended') ctx.resume();
+  master.gain.value = state().settings.volume;
+  return ctx;
+}
+
+function tone(freq, t0, dur, { type = 'sine', gain = 0.2, to } = {}) {
+  const c = ensure(); if (!c) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, c.currentTime + t0);
+  if (to) o.frequency.exponentialRampToValueAtTime(to, c.currentTime + t0 + dur);
+  g.gain.setValueAtTime(0.0001, c.currentTime + t0);
+  g.gain.exponentialRampToValueAtTime(gain, c.currentTime + t0 + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + t0 + dur);
+  o.connect(g); g.connect(master); o.start(c.currentTime + t0); o.stop(c.currentTime + t0 + dur + 0.05);
+}
+
+const SFX = {
+  tap: () => tone(660, 0, .08, { gain: .12 }),
+  nav: () => tone(440, 0, .12, { to: 660, gain: .1 }),
+  coin: () => { tone(988, 0, .1, { type: 'triangle' }); tone(1319, .08, .18, { type: 'triangle' }); },
+  win: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .1, .3, { type: 'triangle' })),
+  lose: () => { tone(330, 0, .25, { type: 'sawtooth', gain: .08 }); tone(220, .2, .4, { type: 'sawtooth', gain: .08 }); },
+  reward: () => [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * .07, .25)),
+  portal: () => tone(200, 0, .8, { type: 'sine', to: 900, gain: .15 }),
+  ok: () => tone(880, 0, .12, { gain: .12 }),
+  bad: () => tone(180, 0, .2, { type: 'square', gain: .06 })
+};
+function sfx(name) { if (state().settings.sfx) SFX[name]?.(); }
+
+// Soft ambient: filtered pad that slowly changes chords + occasional crystal notes. Placeholder for licensed tracks.
+const CHORDS = [[220, 261.6, 329.6], [174.6, 220, 261.6], [196, 246.9, 293.7], [164.8, 207.7, 246.9]]; // Am F G E (soft minor feel)
+function startMusic() {
+  if (!state().settings.music || musicNodes) return;
+  const c = ensure(); if (!c) return;
+  const out = c.createGain(); out.gain.value = 0.0001; out.connect(master);
+  out.gain.exponentialRampToValueAtTime(0.14, c.currentTime + 4);
+  const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700; lp.Q.value = 0.4; lp.connect(out);
+  const voices = [0, 1, 2].map(i => { const o = c.createOscillator(); o.type = 'triangle'; o.frequency.value = CHORDS[0][i]; const g = c.createGain(); g.gain.value = 0.5; o.connect(g); g.connect(lp); o.start(); return o; });
+  let step = 0;
+  const timer = setInterval(() => {
+    step = (step + 1) % CHORDS.length; const t = c.currentTime;
+    voices.forEach((o, i) => o.frequency.setTargetAtTime(CHORDS[step][i], t, 1.2)); // glide to next chord
+    if (Math.random() < 0.8) { const f = CHORDS[step][Math.floor(Math.random() * 3)] * 4; tone(f, 1.5, 1.6, { type: 'sine', gain: 0.05 }); } // crystal note
+  }, 7000);
+  musicNodes = { out, voices, timer };
+}
+function stopMusic() {
+  if (!musicNodes) return;
+  clearInterval(musicNodes.timer);
+  const { out, voices } = musicNodes; musicNodes = null;
+  try { out.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.3); } catch {}
+  setTimeout(() => { voices.forEach(o => { try { o.stop(); } catch {} }); out.disconnect(); }, 1200);
+}
+function applyAudioSettings() {
+  if (master) master.gain.value = state().settings.volume;
+  state().settings.music ? startMusic() : stopMusic();
+}
+
+Object.assign(__exp, { sfx, startMusic, stopMusic, applyAudioSettings });
+return __exp;
+})();
+
+__m["components/ui"] = (() => {
+const __exp = {};
+// Icon set (original stroke icons) + UI helpers
+const P = {
+  home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+  game: '<rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 10v5M5.5 12.5h5"/><circle cx="16" cy="11.5" r=".8"/><circle cx="18" cy="14" r=".8"/>',
+  users: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.8-6 6-6s6 2.5 6 6"/><path d="M16 5a3 3 0 010 6M18 14c2 .8 3 2.800 3 6"/>',
+  trophy: '<path d="M8 4h8v5a4 4 0 01-8 0z"/><path d="M8 6H4c0 3 1 4 4 4M16 6h4c0 3-1 4-4 4M12 13v4M8 20h8"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+  next: '<path d="M9 5l7 7-7 7"/>',
+  doc: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.500 12h5M9.500 16h5"/>',
+  shield: '<path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500v.5"/>',
+  rules: '<path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h3"/>',
+  flame: '<path d="M12 3c1 4 5 5 5 10a5 5 0 01-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/>',
+  coin: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 10h5a1.500 1.500 0 010 3H9"/>',
+  gem: '<path d="M6 4h12l4 6-10 11L2 10z"/><path d="M2 10h20M9 4l-2 6 5 11 5-11-2-6"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  bag: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 016 0"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',
+  check: '<path d="M5 12l5 5 9-10"/>',
+  // game icons
+  word: '<path d="M4 18l4-12 4 12M5.500 14h5M15 8h5M15 12h5M15 16h5"/>',
+  quiz: '<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 115 0c0 2-2.500 2-2.500 4M12 17v.5"/>',
+  mind: '<path d="M12 3a6 6 0 00-4 10.500V17h8v-3.500A6 6 0 0012 3zM9 20h6"/>',
+  memory: '<rect x="3" y="4" width="8" height="8" rx="2"/><rect x="13" y="12" width="8" height="8" rx="2"/><path d="M15 6h4M5 16h4"/>',
+  bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+  party: '<path d="M4 20l5-14 9 9z"/><path d="M14 5l1-2M18 8l2-1M17 3v2"/>',
+  swords: '<path d="M4 4l10 10M20 4L10 14M3 21l4-4M21 21l-4-4"/>',
+  team: '<circle cx="7" cy="9" r="2.500"/><circle cx="17" cy="9" r="2.500"/><path d="M2 19c0-3 2-5 5-5M22 19c0-3-2-5-5-5M8 19c0-3 1.800-5 4-5s4 2 4 5"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
+};
+const icon = (n, cls = '') => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || ''}</svg>`;
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+
+let tt;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function modal(html, onMount) {
+  const m = $('#modal');
+  m.innerHTML = `<div class="modal-bg"><div class="sheet">${html}</div></div>`;
+  const close = () => { m.innerHTML = ''; };
+  $('.modal-bg', m).addEventListener('click', e => { if (e.target.classList.contains('modal-bg')) close(); });
+  onMount?.(m, close); return close;
+}
+
+Object.assign(__exp, { icon, $, $$, esc, shuffle, rnd, toast, modal });
+return __exp;
+})();
+
+__m["components/lumi"] = (() => {
+const __exp = {};
+// Original character LUMI and VELORA logo — pure SVG, 6 moods.
+const { equippedItem } = __m["services/store"];
+let uid = 0;
+function lumi(mood = 'normal', size = 140, skinOverride) {
+  const id = 'l' + uid++;
+  const eyes = {
+    normal: '<ellipse cx="42" cy="58" rx="6" ry="8"/><ellipse cx="78" cy="58" rx="6" ry="8"/>',
+    happy: '<path d="M35 60q7-10 14 0M71 60q7-10 14 0" stroke="#10162A" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    surprised: '<ellipse cx="42" cy="57" rx="8" ry="10"/><ellipse cx="78" cy="57" rx="8" ry="10"/>',
+    thinking: '<ellipse cx="42" cy="58" rx="6" ry="8"/><ellipse cx="78" cy="55" rx="6" ry="6"/>',
+    victory: '<path d="M36 56l12 5-12 5M84 56l-12 5 12 5" stroke="#10162A" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    wave: '<ellipse cx="42" cy="58" rx="6" ry="8"/><path d="M71 60q7-10 14 0" stroke="#10162A" stroke-width="4" fill="none" stroke-linecap="round"/>'
+  }[mood] || '';
+  const mouth = {
+    normal: '<path d="M52 76q8 6 16 0" />', happy: '<path d="M48 74q12 14 24 0" />', surprised: '<ellipse cx="60" cy="80" rx="4" ry="5" fill="#10162A"/>',
+    thinking: '<path d="M54 79h12" />', victory: '<path d="M46 73q14 18 28 0" />', wave: '<path d="M48 74q12 12 24 0" />'
+  }[mood] || '';
+  const arm = mood === 'victory' ? '<path d="M18 70q-14-14-10-30M102 70q14-14 10-30" stroke="url(#b' + id + ')" stroke-width="9" stroke-linecap="round" fill="none"/>'
+    : mood === 'wave' ? '<path d="M102 74q16-6 14-26" stroke="url(#b' + id + ')" stroke-width="9" stroke-linecap="round" fill="none"/>' : '';
+  const sk = skinOverride || equippedItem('skin'); const fl = sk ? `filter:hue-rotate(${sk.hue}deg);` : '';
+  return `<svg class="lumi" style="${fl}" width="${size}" height="${size}" viewBox="0 0 120 120" role="img" aria-label="Луми">
+  <defs><radialGradient id="g${id}" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#C4B5FD"/><stop offset=".6" stop-color="#8B5CF6"/><stop offset="1" stop-color="#477BFF"/></radialGradient>
+  <linearGradient id="b${id}" x1="0" x2="1"><stop stop-color="#42D9E8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+  <filter id="f${id}"><feGaussianBlur stdDeviation="5"/></filter></defs>
+  <ellipse cx="60" cy="64" rx="48" ry="46" fill="#42D9E8" opacity=".35" filter="url(#f${id})"/>
+  ${arm}
+  <path d="M60 8c8 12 8 16 4 22" stroke="url(#b${id})" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <circle cx="64" cy="8" r="5" fill="#42D9E8"/>
+  <path d="M24 38 14 18l22 10zM96 38l10-20-22 10z" fill="#A78BFA"/>
+  <path d="M60 22c28 0 44 18 44 42 0 22-16 36-44 36S16 86 16 64c0-24 16-42 44-42z" fill="url(#g${id})"/>
+  <ellipse cx="60" cy="68" rx="34" ry="24" fill="#F5F5FF" opacity=".92"/>
+  <g fill="#10162A">${eyes}</g><g fill="none" stroke="#10162A" stroke-width="3.5" stroke-linecap="round">${mouth}</g>
+  <circle cx="45" cy="55" r="2" fill="#fff"/><circle cx="81" cy="55" r="2" fill="#fff"/>
+  <path d="M60 96l-7 10h14z" fill="#42D9E8" opacity=".8"/></svg>`;
+}
+
+function logo(h = 34) {
+  return `<svg height="${h}" viewBox="0 0 190 40" role="img" aria-label="VELORA"><defs><linearGradient id="lg" x1="0" x2="1"><stop stop-color="#42D9E8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
+  <path d="M4 6l12 28L28 6" fill="none" stroke="url(#lg)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M16 6l-4 9h8z" fill="#A78BFA"/>
+  <text x="40" y="31" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-weight="800" font-size="28" letter-spacing="4" fill="url(#lg)">ELORA</text></svg>`;
+}
+
+Object.assign(__exp, { lumi, logo });
+return __exp;
+})();
+
+__m["games/quiz"] = (() => {
+const __exp = {};
+const { shuffle, esc } = __m["components/ui"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+const Q = [
+ ['science','Какая планета ближе всего к Солнцу?',['Меркурий','Венера','Марс','Юпитер'],0],
+ ['science','Какой газ растения поглощают при фотосинтезе?',['Кислород','Углекислый газ','Азот','Гелий'],1],
+ ['science','Сколько костей у взрослого человека?',['106','206','306','156'],1],
+ ['geo','Столица Канады?',['Торонто','Ванкувер','Оттава','Монреаль'],2],
+ ['geo','Самая длинная река Европы?',['Дунай','Рейн','Волга','Днепр'],2],
+ ['geo','На каком континенте находится Египет?',['Азия','Африка','Европа','Австралия'],1],
+ ['history','В каком году человек впервые высадился на Луну?',['1959','1965','1969','1975'],2],
+ ['history','Кто построил пирамиды в Гизе?',['Римляне','Древние египтяне','Греки','Майя'],1],
+ ['tech','Что означает аббревиатура CPU?',['Центральный процессор','Диск','Видеокарта','Память'],0],
+ ['tech','Сколько бит в байте?',['4','8','16','32'],1],
+ ['tech','Какой язык используется для стилизации веб-страниц?',['HTML','CSS','SQL','Python'],1],
+ ['cinema','Как называется премия киноакадемии США?',['Оскар','Грэмми','Эмми','Тони'],0],
+ ['music','Сколько струн у классической гитары?',['4','5','6','7'],2],
+ ['music','Как называется самый низкий мужской певческий голос?',['Тенор','Бас','Баритон','Альт'],1],
+ ['sport','Сколько игроков одной команды на поле в футболе?',['9','10','11','12'],2],
+ ['sport','В каком виде спорта используют ракетку и волан?',['Теннис','Бадминтон','Сквош','Гольф'],1],
+ ['culture','Кто написал «Войну и мир»?',['Достоевский','Чехов','Толстой','Пушкин'],2],
+ ['culture','Какой город называют городом на воде в Италии?',['Рим','Милан','Венеция','Неаполь'],2],
+ ['animals','Какое животное самое быстрое на суше?',['Лев','Гепард','Конь','Антилопа'],1],
+ ['animals','Сколько сердец у осьминога?',['1','2','3','4'],2],
+ ['general','Сколько дней в високосном году?',['365','366','364','367'],1],
+ ['general','Какого цвета получается при смешении синего и жёлтого?',['Зелёный','Оранжевый','Фиолетовый','Серый'],0]
+];
+const CATS = { science:'Наука', geo:'География', history:'История', tech:'Технологии', cinema:'Кино', music:'Музыка', sport:'Спорт', culture:'Культура', animals:'Животные', general:'Общие знания' };
+
+__exp.default = {
+  id: 'quiz', title: 'Quiz Arena', icon: 'quiz', color: 'linear-gradient(135deg,#8B5CF6,#477BFF)',
+  desc: 'Викторина по 10 категориям. Чем быстрее ответ, тем больше очков.',
+  start(el, { diff, finish, qs: preset }) {
+    const cfg = { easy: [6, 20], normal: [8, 14], hard: [10, 9] }[diff];
+    const qs = preset || shuffle(Q).slice(0, cfg[0]).map(q => {
+      const opts = shuffle(q[2].map((t, i) => ({ t, ok: i === q[3] })));
+      return { cat: q[0], q: q[1], opts };
+    });
+    let combo = 0;
+    let i = 0, score = 0, left, timer, locked;
+    const max = qs.length * 100;
+    const render = () => {
+      const q = qs[i]; left = cfg[1]; locked = false;
+      el.innerHTML = `<div class="row between muted"><span>${i + 1}/${qs.length} · ${CATS[q.cat]}</span><b id="t">${left}</b></div>
+        <div class="bar" style="margin:10px 0"><i id="tb" style="width:100%"></i></div>
+        <div class="card"><h3>${esc(q.q)}</h3></div>
+        ${q.opts.map((o, k) => `<button class="opt" data-k="${k}" style="animation-delay:${k * 70}ms"><span class="ol">${'ABCD'[k]}</span>${esc(o.t)}</button>`).join('')}
+        <p class="muted center" style="margin-top:14px">Очки: <b>${score}</b>${combo > 1 ? ` · <span class="combo">серия ×${combo}</span>` : ''}</p>`;
+      el.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.k));
+      clearInterval(timer);
+      timer = setInterval(() => {
+        left--; el.querySelector('#t').textContent = left;
+        const tb = el.querySelector('#tb'); tb.style.width = (left / cfg[1] * 100) + '%'; tb.classList.toggle('low', left <= 4);
+        if (left <= 0) answer(-1);
+      }, 1000);
+    };
+    const answer = k => {
+      if (locked) return; locked = true; clearInterval(timer);
+      const q = qs[i], ok = k >= 0 && q.opts[k].ok;
+      if (ok) { combo++; score += 50 + Math.round(50 * left / cfg[1]); sfx('ok'); haptic('success'); } else { combo = 0; sfx('bad'); haptic('error'); }
+      el.querySelectorAll('.opt').forEach((b, n) => { if (q.opts[n].ok) b.classList.add('ok'); else if (n === k) b.classList.add('bad'); });
+      setTimeout(() => { if (++i >= qs.length) finish({ score, max, win: score >= max * 0.5 }); else render(); }, 900);
+    };
+    render();
+    return () => clearInterval(timer);
+  }
+};
+
+Object.assign(__exp, { Q, CATS });
+return __exp;
+})();
+
+__m["games/word"] = (() => {
+const __exp = {};
+const { shuffle, esc } = __m["components/ui"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+const W = {
+  'Животные': [['лиса','Рыжая хищница из леса'],['дельфин','Умный морской обитатель'],['пингвин','Птица, которая не летает, но плавает'],['жираф','Самое высокое животное'],['крокодил','Рептилия с мощной пастью']],
+  'Космос': [['планета','Вращается вокруг звезды'],['комета','Небесное тело с хвостом'],['галактика','Скопление миллиардов звёзд'],['ракета','Летит за пределы атмосферы'],['телескоп','Прибор для наблюдения звёзд']],
+  'Технологии': [['клавиатура','Устройство для ввода текста'],['браузер','Программа для просмотра сайтов'],['процессор','Мозг компьютера'],['алгоритм','Последовательность шагов решения'],['пиксель','Мельчайшая точка на экране']],
+  'Природа': [['водопад','Вода падает с высоты'],['вулкан','Гора, извергающая лаву'],['радуга','Семь цветов после дождя'],['пустыня','Много песка, мало воды'],['ледник','Огромная масса льда']]
+};
+const ABC = 'абвгдежзийклмнопрстуфхцчшщъыьэюя'.split('');
+
+__exp.default = {
+  id: 'word', title: 'Word Quest', icon: 'word', color: 'linear-gradient(135deg,#42D9E8,#477BFF)',
+  desc: 'Угадай слово по буквам. Выбери категорию, используй подсказку.',
+  start(el, { diff, finish }) {
+    const rounds = 3, tries0 = { easy: 8, normal: 6, hard: 4 }[diff];
+    const cats = Object.keys(W); let r = 0, score = 0, hints = 0;
+    const max = rounds * 100;
+    const pickCat = () => {
+      el.innerHTML = `<h2>Выбери категорию</h2>${cats.map(c => `<button class="opt" data-c="${c}">${c}</button>`).join('')}`;
+      el.querySelectorAll('.opt').forEach(b => b.onclick = () => round(b.dataset.c));
+    };
+    const round = cat => {
+      const [word, clue] = shuffle(W[cat])[0]; let tries = tries0; const got = new Set(); let hintShown = false;
+      const draw = () => {
+        el.innerHTML = `<div class="row between muted"><span>Раунд ${r + 1}/${rounds} · ${cat}</span><b>Попытки: ${tries}</b></div>
+          <div class="word">${[...word].map(ch => `<b>${got.has(ch) ? ch.toUpperCase() : ''}</b>`).join('')}</div>
+          <p class="center muted">${hintShown ? esc(clue) : 'Подсказка скрыта'}</p>
+          <div class="center"><button class="btn ghost sm" id="h" ${hintShown ? 'disabled' : ''}>Показать подсказку (−30)</button></div>
+          <div class="keys">${ABC.map(k => `<button class="key" data-k="${k}" ${got.has(k) || wrong.has(k) ? 'disabled' : ''}>${k.toUpperCase()}</button>`).join('')}</div>`;
+        el.querySelector('#h').onclick = () => { hintShown = true; hints++; sfx('tap'); draw(); };
+        el.querySelectorAll('.key').forEach(b => b.onclick = () => guess(b.dataset.k));
+      };
+      const wrong = new Set();
+      const guess = k => {
+        if (word.includes(k)) { got.add(k); sfx('ok'); haptic('light'); } else { wrong.add(k); tries--; sfx('bad'); haptic('error'); }
+        const won = [...word].every(ch => got.has(ch));
+        if (won || tries <= 0) {
+          if (won) score += Math.max(20, Math.round(100 * tries / tries0) - (hintShown ? 30 : 0));
+          el.innerHTML = `<div class="card center"><h3>${won ? 'Верно!' : 'Не угадано'}</h3><p>Слово: <b>${word.toUpperCase()}</b></p></div>`;
+          setTimeout(() => { if (++r >= rounds) finish({ score, max, win: score >= max * 0.5 }); else pickCat(); }, 1100);
+        } else draw();
+      };
+      draw();
+    };
+    pickCat();
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/mind"] = (() => {
+const __exp = {};
+const { rnd, shuffle } = __m["components/ui"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+// Procedurally generated logic tasks: arithmetic, geometric, squares, odd-one-out, pattern.
+function makeTask(level) {
+  const t = rnd(0, 4);
+  if (t === 0) { const a = rnd(1, 9), d = rnd(2, 4 + level * 2); const s = [0, 1, 2, 3].map(i => a + d * i); return { q: `${s.join(', ')}, …?`, ans: a + d * 4 }; }
+  if (t === 1) { const a = rnd(1, 3), m = rnd(2, 3); const s = [0, 1, 2, 3].map(i => a * m ** i); return { q: `${s.join(', ')}, …?`, ans: a * m ** 4 }; }
+  if (t === 2) { const n = rnd(2, 4 + level); return { q: `${n * n}, ${(n + 1) ** 2}, ${(n + 2) ** 2}, …?`, ans: (n + 3) ** 2 }; }
+  if (t === 3) { const base = rnd(2, 6), odd = base * rnd(2, 5) + 1; const set = [base * 2, base * 4, base * 6, base * 3]; set[rnd(0, 3)] = odd % base === 0 ? odd + 1 : odd;
+    const ans = set.find(x => x % base !== 0 || x === odd); return { q: `Найди лишнее число (остальные кратны ${base}): ${set.join(', ')}`, ans, odd: true, set }; }
+  const a = rnd(2, 9), b = rnd(2, 9); const s = [a, b, a + b, a + 2 * b]; return { q: `${s.join(', ')}, …? (каждое число = сумма двух предыдущих)`, ans: s[2] + s[3] };
+}
+function options(ans, set) {
+  if (set) return shuffle(set);
+  const o = new Set([ans]); while (o.size < 4) o.add(ans + rnd(-9, 9) || ans + 11); return shuffle([...o]);
+}
+
+__exp.default = {
+  id: 'mind', title: 'Mind Lab', icon: 'mind', color: 'linear-gradient(135deg,#A78BFA,#42D9E8)',
+  desc: 'Последовательности, закономерности и поиск лишнего.',
+  start(el, { diff, finish }) {
+    const n = { easy: 6, normal: 8, hard: 10 }[diff], lvl = { easy: 1, normal: 2, hard: 3 }[diff];
+    let i = 0, score = 0, locked = false; const max = n * 100;
+    const next = () => {
+      const task = makeTask(lvl); const opts = options(task.ans, task.set); locked = false;
+      el.innerHTML = `<div class="row between muted"><span>Задача ${i + 1}/${n}</span><b>Очки: ${score}</b></div>
+        <div class="card" style="margin-top:12px"><h3>${task.q}</h3></div>
+        ${opts.map(o => `<button class="opt" data-v="${o}">${o}</button>`).join('')}`;
+      el.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+        if (locked) return; locked = true; const ok = +b.dataset.v === task.ans;
+        b.classList.add(ok ? 'ok' : 'bad'); if (!ok) el.querySelectorAll('.opt').forEach(x => +x.dataset.v === task.ans && x.classList.add('ok'));
+        if (ok) { score += 100; sfx('ok'); haptic('success'); } else { sfx('bad'); haptic('error'); }
+        setTimeout(() => { if (++i >= n) finish({ score, max, win: score >= max * 0.6 }); else next(); }, 800);
+      });
+    };
+    next();
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/memory"] = (() => {
+const __exp = {};
+const { shuffle } = __m["components/ui"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+const COLORS = ['#8B5CF6', '#42D9E8', '#477BFF', '#FBBF24', '#FB7185', '#4ADE80', '#F472B6', '#FB923C', '#A78BFA', '#22D3EE'];
+const SHAPES = [
+  c => `<circle cx="12" cy="12" r="8" fill="${c}"/>`, c => `<rect x="4" y="4" width="16" height="16" rx="3" fill="${c}"/>`,
+  c => `<path d="M12 3l9 17H3z" fill="${c}"/>`, c => `<path d="M12 2l10 10-10 10L2 12z" fill="${c}"/>`,
+  c => `<path d="M12 2l3 7 7 .6-5.400 4.600 1.700 7.300L12 17.800 5.700 21.500l1.700-7.300L2 9.600 9 9z" fill="${c}"/>`,
+  c => `<path d="M7 3h10l5 9-5 9H7l-5-9z" fill="${c}"/>`, c => `<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="${c}"/>`,
+  c => `<circle cx="12" cy="12" r="8" fill="none" stroke="${c}" stroke-width="4"/>`
+];
+const sym = i => `<svg viewBox="0 0 24 24" width="60%" height="60%">${SHAPES[i % 8](COLORS[i % 10])}</svg>`;
+
+__exp.default = {
+  id: 'memory', title: 'Memory Rush', icon: 'memory', color: 'linear-gradient(135deg,#4ADE80,#42D9E8)',
+  desc: 'Найди все пары карточек за минимум ходов.',
+  start(el, { diff, finish }) {
+    const pairs = { easy: 6, normal: 8, hard: 10 }[diff], cols = pairs === 6 ? 3 : 4;
+    const deck = shuffle([...Array(pairs).keys(), ...Array(pairs).keys()]);
+    let open = [], moves = 0, found = 0, lock = false, t0 = null, timer;
+    el.innerHTML = `<div class="row between muted"><span>Ходы: <b id="m">0</b></span><span>Пары: <b id="f">0</b>/${pairs}</span><span id="tm">0 c</span></div>
+      <div class="mem" style="grid-template-columns:repeat(${cols},1fr);margin-top:14px">${deck.map((v, i) => `<div class="tile" data-i="${i}" role="button">${sym(v)}</div>`).join('')}</div>`;
+    const tiles = [...el.querySelectorAll('.tile')];
+    tiles.forEach(t => { t.querySelector('svg').style.visibility = 'hidden'; });
+    const show = (t, on) => { t.classList.remove('flip'); void t.offsetWidth; if (on) t.classList.add('flip'); t.classList.toggle('open', on); t.querySelector('svg').style.visibility = on ? 'visible' : 'hidden'; };
+    tiles.forEach(t => t.onclick = () => {
+      const i = +t.dataset.i; if (lock || open.includes(i) || t.classList.contains('done')) return;
+      if (!t0) { t0 = Date.now(); timer = setInterval(() => { const s = el.querySelector('#tm'); if (s) s.textContent = Math.round((Date.now() - t0) / 1000) + ' c'; }, 1000); }
+      show(t, true); sfx('tap'); open.push(i);
+      if (open.length === 2) {
+        moves++; el.querySelector('#m').textContent = moves; lock = true;
+        const [a, b] = open;
+        if (deck[a] === deck[b]) {
+          [a, b].forEach(k => { tiles[k].classList.add('done'); }); found++; el.querySelector('#f').textContent = found; sfx('ok'); haptic('success'); open = []; lock = false;
+          if (found === pairs) { clearInterval(timer); const sec = (Date.now() - t0) / 1000;
+            const score = Math.max(10, Math.round(pairs * 100 - (moves - pairs) * 15 - sec * 2));
+            setTimeout(() => finish({ score, max: pairs * 100, win: moves <= pairs * 2 }), 600); }
+        } else setTimeout(() => { show(tiles[a], false); show(tiles[b], false); open = []; lock = false; sfx('bad'); }, 700);
+      }
+    });
+    return () => clearInterval(timer);
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/reaction"] = (() => {
+const __exp = {};
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+__exp.default = {
+  id: 'reaction', title: 'Reaction X', icon: 'bolt', color: 'linear-gradient(135deg,#FBBF24,#FB7185)',
+  desc: 'Нажми, как только экран станет зелёным. 5 попыток.',
+  start(el, { diff, finish }) {
+    const rounds = 5, maxWait = { easy: 4500, normal: 3500, hard: 2800 }[diff];
+    const times = []; let state = 'idle', t0, to, fouls = 0, r = 0;
+    el.innerHTML = `<div class="row between muted"><span id="rn">Попытка 1/${rounds}</span><span id="best"></span></div>
+      <div class="reactpad" id="pad"></div><p class="muted center" style="margin-top:12px">Не нажимай раньше времени — это штраф.</p>`;
+    const pad = el.querySelector('#pad');
+    const paint = (bg, txt, st = 'idle') => { pad.style.background = bg; pad.dataset.s = st; pad.textContent = txt; };
+    const burst = (x, y) => { const r = document.createElement('i'); r.className = 'rip'; r.style.left = x + 'px'; r.style.top = y + 'px'; pad.appendChild(r); setTimeout(() => r.remove(), 700); };
+    const arm = () => {
+      state = 'wait'; paint('#7f1d1d', 'Жди зелёного…', 'wait');
+      to = setTimeout(() => { state = 'go'; t0 = performance.now(); paint('#16a34a', 'ЖМИ!', 'go'); sfx('ok'); haptic('medium'); }, 1000 + Math.random() * maxWait);
+    };
+    const end = () => {
+      const avg = times.length ? times.reduce((a, b) => a + b, 0) / times.length : 999;
+      const score = Math.max(0, Math.round(500 - avg * 0.8 - fouls * 40) * 1);
+      finish({ score, max: 500, win: avg < 450 && fouls < 3, extra: `Среднее: ${Math.round(avg)} мс · Штрафы: ${fouls}` });
+    };
+    const done = () => { r++; if (r >= rounds) { setTimeout(end, 700); state = 'over'; } else { el.querySelector('#rn').textContent = `Попытка ${r + 1}/${rounds}`; state = 'idle'; paint('#243057', 'Нажми, чтобы продолжить'); } };
+    pad.onpointerdown = e => {
+      if (state === 'idle') arm();
+      else if (state === 'wait') { clearTimeout(to); fouls++; sfx('bad'); haptic('error'); paint('#92400e', 'Слишком рано!', 'foul'); done(); }
+      else if (state === 'go') { const ms = Math.round(performance.now() - t0); times.push(ms); sfx('coin'); paint('#1d4ed8', ms + ' мс', 'hit'); burst(e.offsetX, e.offsetY); el.querySelector('#best').textContent = 'Лучшее: ' + Math.min(...times) + ' мс'; done(); }
+    };
+    paint('#243057', 'Нажми, чтобы начать');
+    return () => clearTimeout(to);
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/party"] = (() => {
+const __exp = {};
+const { shuffle, esc } = __m["components/ui"];
+const { Q, CATS } = __m["games/quiz"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+// Pass-the-phone party quiz for 2–4 players on ONE device. Not online multiplayer.
+__exp.default = {
+  id: 'party', title: 'Party Mode', icon: 'party', color: 'linear-gradient(135deg,#F472B6,#8B5CF6)',
+  desc: 'Викторина для компании на одном телефоне: 2–4 игрока по очереди.',
+  start(el, { diff, finish }) {
+    const per = { easy: 3, normal: 4, hard: 5 }[diff];
+    let names = ['Игрок 1', 'Игрок 2'];
+    const setup = () => {
+      el.innerHTML = `<h2>Кто играет?</h2><p class="muted">Телефон передаётся по кругу. Каждому по ${per} вопроса.</p>
+        ${names.map((n, i) => `<input type="text" data-i="${i}" value="${esc(n)}" maxlength="12" style="margin-top:8px">`).join('')}
+        <div class="grid2" style="margin-top:12px"><button class="btn ghost" id="add" ${names.length >= 4 ? 'disabled' : ''}>+ Игрок</button><button class="btn ghost" id="rm" ${names.length <= 2 ? 'disabled' : ''}>− Игрок</button></div>
+        <button class="btn block" id="go" style="margin-top:14px">Начать</button>`;
+      const sync = () => el.querySelectorAll('input').forEach(i => names[+i.dataset.i] = i.value.trim() || 'Игрок ' + (+i.dataset.i + 1));
+      el.querySelector('#add').onclick = () => { sync(); names.push('Игрок ' + (names.length + 1)); setup(); };
+      el.querySelector('#rm').onclick = () => { sync(); names.pop(); setup(); };
+      el.querySelector('#go').onclick = () => { sync(); begin(); };
+    };
+    const begin = () => {
+      const total = names.length * per, pool = shuffle(Q).slice(0, total);
+      const score = names.map(() => 0); let t = 0;
+      const turn = () => {
+        const p = t % names.length, q = pool[t];
+        const opts = shuffle(q[2].map((x, i) => ({ x, ok: i === q[3] })));
+        el.innerHTML = `<div class="card center"><p class="muted">Вопрос ${t + 1}/${total} · ${CATS[q[0]]}</p><h2 style="margin:4px 0">Ход: ${esc(names[p])}</h2>
+          <button class="btn" id="show">Я готов(а)</button></div>`;
+        el.querySelector('#show').onclick = () => {
+          el.innerHTML = `<div class="row between muted"><b>${esc(names[p])}</b><span>Очки: ${score[p]}</span></div><div class="card" style="margin-top:10px"><h3>${esc(q[1])}</h3></div>
+            ${opts.map((o, k) => `<button class="opt" data-k="${k}">${esc(o.x)}</button>`).join('')}`;
+          let locked = false;
+          el.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+            if (locked) return; locked = true; const ok = opts[+b.dataset.k].ok;
+            if (ok) { score[p]++; sfx('ok'); haptic('success'); } else { sfx('bad'); haptic('error'); }
+            el.querySelectorAll('.opt').forEach((x, n) => opts[n].ok ? x.classList.add('ok') : x === b && x.classList.add('bad'));
+            setTimeout(() => { t++; if (t >= total) end(score); else turn(); }, 900);
+          });
+        };
+      };
+      const end = sc => {
+        const rank = names.map((n, i) => ({ n, s: sc[i] })).sort((a, b) => b.s - a.s);
+        finish({ score: sc.reduce((a, b) => a + b, 0), max: total, win: true, extra: 'Победитель: ' + rank[0].n + ' · ' + rank.map(r => r.n + ' ' + r.s).join(', ') });
+      };
+      turn();
+    };
+    setup();
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/mystery"] = (() => {
+const __exp = {};
+const { shuffle, esc } = __m["components/ui"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+// Riddle chain: each solved stage unlocks the next one. Answers are normalised (case, ё/е, spaces).
+const R = [
+  ['У меня есть города, но нет домов; реки, но нет воды. Что я?', ['карта'], 'Висит на стене или лежит в атласе'],
+  ['Чем больше из неё берёшь, тем больше она становится. Что это?', ['яма'], 'Её роют лопатой'],
+  ['Не лает, не кусает, а в дом не пускает.', ['замок'], 'Есть ключ'],
+  ['Идёт, а с места не сходит.', ['время', 'часы'], 'Тик-так'],
+  ['Всегда впереди, но его никогда не увидишь. Что это?', ['будущее'], 'Оно ещё не наступило'],
+  ['Зимой и летом одним цветом.', ['ель', 'ёлка', 'елка', 'сосна'], 'Хвойное дерево'],
+  ['Что можно поймать, но нельзя бросить?', ['простуда', 'насморк', 'холод'], 'Часто бывает осенью'],
+  ['Без рук, без ног, а рисует.', ['мороз'], 'Узоры на окне'],
+  ['Какое число читается одинаково слева направо и справа налево: 12, 21, 11, 13?', ['11'], 'Посмотри на цифры'],
+  ['Сколько будет, если к одной второй прибавить половину?', ['1', 'один', 'единица'], 'Две половинки']
+];
+const norm = s => String(s).toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]/g, '');
+
+__exp.default = {
+  id: 'mystery', title: 'Mystery Zone', icon: 'eye', color: 'linear-gradient(135deg,#6366F1,#1e1b4b)',
+  desc: 'Цепочка загадок: решишь одну — откроется следующая.',
+  start(el, { diff, finish }) {
+    const n = { easy: 4, normal: 5, hard: 6 }[diff], tries0 = { easy: 4, normal: 3, hard: 2 }[diff];
+    const set = shuffle(R).slice(0, n); let i = 0, score = 0;
+    const stage = () => {
+      const [q, ans, hint] = set[i]; let tries = tries0, hinted = false;
+      const draw = (msg = '') => {
+        el.innerHTML = `<div class="row between muted"><span>Этап ${i + 1}/${n}</span><b>Попытки: ${tries}</b></div>
+          <div class="bar" style="margin:10px 0"><i style="width:${i / n * 100}%"></i></div>
+          <div class="card center"><p class="muted">Загадка</p><h3>${esc(q)}</h3></div>
+          ${hinted ? `<p class="center muted" style="margin-top:10px">Подсказка: ${esc(hint)}</p>` : ''}
+          <input type="text" id="a" placeholder="Твой ответ" autocomplete="off" style="margin-top:12px"><p class="center" style="color:var(--bad);min-height:22px">${msg}</p>
+          <div class="grid2"><button class="btn ghost" id="h" ${hinted ? 'disabled' : ''}>Подсказка (−40)</button><button class="btn" id="ok">Ответить</button></div>`;
+        el.querySelector('#h').onclick = () => { hinted = true; draw(); };
+        const check = () => {
+          const v = norm(el.querySelector('#a').value); if (!v) return;
+          if (ans.some(a => norm(a) === v)) { score += Math.max(30, 100 - (tries0 - tries) * 25 - (hinted ? 40 : 0)); sfx('reward'); haptic('success'); next(); }
+          else { tries--; sfx('bad'); haptic('error'); if (tries <= 0) { el.innerHTML = `<div class="card center"><h3>Не разгадано</h3><p>Ответ: <b>${esc(ans[0])}</b></p></div>`; setTimeout(next, 1400); } else draw('Неверно, попробуй ещё'); }
+        };
+        el.querySelector('#ok').onclick = check; el.querySelector('#a').onkeydown = e => e.key === 'Enter' && check();
+      };
+      draw();
+    };
+    const next = () => { if (++i >= n) finish({ score, max: n * 100, win: score >= n * 60 }); else stage(); };
+    stage();
+  }
+};
+
+Object.assign(__exp, {  });
+return __exp;
+})();
+
+__m["games/seed"] = (() => {
+const __exp = {};
+// Deterministic shuffling so every player of one match / day gets identical questions.
+function rng(seedStr) {
+  let h = 2166136261; for (const c of String(seedStr)) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+  return () => { h += 0x6D2B79F5; let t = Math.imul(h ^ h >>> 15, 1 | h); t ^= t + Math.imul(t ^ t >>> 7, 61 | t); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function seededShuffle(a, r) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function seededQuestions(Q, seed, n) {
+  const r = rng(seed);
+  return seededShuffle(Q, r).slice(0, n).map(q => ({ cat: q[0], q: q[1], opts: seededShuffle(q[2].map((t, i) => ({ t, ok: i === q[3] })), r) }));
+}
+
+Object.assign(__exp, { rng, seededShuffle, seededQuestions });
+return __exp;
+})();
+
+__m["games/daily"] = (() => {
+const __exp = {};
+const quiz = __m["games/quiz"].default;
+const { Q } = __m["games/quiz"];
+const { seededQuestions } = __m["games/seed"];
+const dayKey = () => new Date().toISOString().slice(0, 10);
+const todayKey = dayKey;
+__exp.default = {
+  id: 'daily', title: 'Daily Quest', icon: 'calendar', color: 'linear-gradient(135deg,#FBBF24,#FB923C)',
+  desc: 'Один набор из 5 вопросов в день — одинаковый для всех. Одна попытка!', once: true,
+  start(el, ctx) {
+    const qs = seededQuestions(Q, 'velora-' + dayKey(), 5);
+    return quiz.start(el, { ...ctx, diff: 'normal', qs });
+  }
+};
+
+Object.assign(__exp, { todayKey });
+return __exp;
+})();
+
+__m["games/index"] = (() => {
+const __exp = {};
+const quiz = __m["games/quiz"].default;
+const word = __m["games/word"].default;
+const mind = __m["games/mind"].default;
+const memory = __m["games/memory"].default;
+const reaction = __m["games/reaction"].default;
+const party = __m["games/party"].default;
+const mystery = __m["games/mystery"].default;
+const daily = __m["games/daily"].default;
+const PLAYABLE = [word, quiz, mind, memory, reaction, party, mystery, daily];
+// Online multiplayer modes (need Telegram + Supabase). Played on #/mp/<id>, not through the solo flow.
+const MULTI = [
+  { id: 'duel', title: 'Duel Zone', desc: 'Дуэль 1 на 1: одни и те же вопросы, побеждает самый быстрый и точный.', icon: 'swords' },
+  { id: 'team', title: 'Team Arena', desc: 'Команда 2 на 2: очки игроков складываются.', icon: 'team' }
+];
+const byId = id => PLAYABLE.find(g => g.id === id);
+
+Object.assign(__exp, { PLAYABLE, MULTI, byId });
+return __exp;
+})();
+
+__m["components/art"] = (() => {
+const __exp = {};
+// Original SVG illustrations for VELORA: hero scene, mode covers, territories, badges, shop previews.
+let n = 0;
+const uid = p => p + (n++);
+
+// Floating islands with crystals, moons and aurora — hero banner / world background.
+function heroScene(h = 190) {
+  const a = uid('a'), b = uid('b'), c = uid('c'), s = uid('s');
+  const stars = Array.from({ length: 28 }, (_, i) => `<circle cx="${(i * 97) % 400}" cy="${(i * 53) % 110}" r="${(i % 3) * .4 + .6}" fill="#fff" opacity="${.35 + (i % 4) * .15}"><animate attributeName="opacity" values=".3;1;.3" dur="${2 + (i % 5)}s" repeatCount="indefinite"/></circle>`).join('');
+  return `<svg viewBox="0 0 400 190" width="100%" height="${h}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Парящие острова VELORA">
+  <defs><linearGradient id="${a}" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1b1147"/><stop offset=".55" stop-color="#5b2d9e"/><stop offset="1" stop-color="#d06cc0"/></linearGradient>
+  <linearGradient id="${b}" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7c5cf0"/><stop offset="1" stop-color="#2b1d6b"/></linearGradient>
+  <linearGradient id="${c}" x1="0" x2="1"><stop stop-color="#42D9E8" stop-opacity="0"/><stop offset=".5" stop-color="#42D9E8" stop-opacity=".5"/><stop offset="1" stop-color="#A78BFA" stop-opacity="0"/></linearGradient>
+  <radialGradient id="${s}"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfd6ff"/></radialGradient></defs>
+  <rect width="400" height="190" fill="url(#${a})"/>${stars}
+  <path d="M-20 60q80-50 170-10t180-30 90 20v40H-20z" fill="url(#${c})" opacity=".7"><animateTransform attributeName="transform" type="translate" values="0 0;12 4;0 0" dur="9s" repeatCount="indefinite"/></path>
+  <circle cx="300" cy="46" r="26" fill="url(#${s})"/><circle cx="292" cy="40" r="5" fill="#b8c0ee" opacity=".6"/><circle cx="308" cy="54" r="3" fill="#b8c0ee" opacity=".6"/>
+  <circle cx="352" cy="22" r="8" fill="url(#${s})" opacity=".8"/>
+  <g><animateTransform attributeName="transform" type="translate" values="0 0;0 -7;0 0" dur="6s" repeatCount="indefinite"/>
+    <path d="M60 100h90l-18 50-27 22-27-22z" fill="url(#${b})"/><path d="M60 100c10-10 70-10 90 0z" fill="#3fbf9b"/>
+    <path d="M96 98l8-26 8 26z" fill="#42D9E8"/><path d="M110 98l6-18 6 18z" fill="#A78BFA"/>
+    <circle cx="82" cy="94" r="3" fill="#FBBF24"/><rect x="132" y="150" width="2.500" height="26" fill="#42D9E8" opacity=".45"/></g>
+  <g><animateTransform attributeName="transform" type="translate" values="0 0;0 8;0 0" dur="7s" repeatCount="indefinite"/>
+    <path d="M200 118h110l-22 50-33 20-33-20z" fill="url(#${b})"/><path d="M200 118c14-12 90-12 110 0z" fill="#46d6a4"/>
+    <path d="M240 116l10-34 10 34z" fill="#F472B6"/><path d="M258 116l7-22 7 22z" fill="#42D9E8"/>
+    <circle cx="214" cy="110" r="3" fill="#FBBF24"/><circle cx="296" cy="112" r="2.500" fill="#fff"/>
+    <rect x="236" y="168" width="3" height="22" fill="#42D9E8" opacity=".45"/></g>
+  <g><animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="5s" repeatCount="indefinite"/>
+    <path d="M330 120h54l-10 26-17 12-17-12z" fill="url(#${b})"/><path d="M330 120c6-6 48-6 54 0z" fill="#3fbf9b"/><path d="M352 119l5-14 5 14z" fill="#A78BFA"/></g>
+  <path d="M0 190V160q60-20 120-4t140-8 140 6v36z" fill="#0b1030"/><path d="M0 190v-14q70-16 140-4t130 0 130 8v10z" fill="#080B18"/>
+  </svg>`;
+}
+
+// Mode covers (square-ish), one per game
+const COVER = {
+  word: ['#42D9E8', '#477BFF', '<g fill="#fff" font-family="sans-serif" font-weight="800"><rect x="14" y="26" width="26" height="30" rx="7" fill="#ffffff22"/><text x="20" y="49" font-size="24">А</text><rect x="46" y="26" width="26" height="30" rx="7" fill="#ffffff22"/><text x="52" y="49" font-size="24">Б</text><rect x="78" y="26" width="26" height="30" rx="7" fill="#ffffff55"/><text x="85" y="49" font-size="24">?</text></g>'],
+  quiz: ['#8B5CF6', '#477BFF', '<circle cx="60" cy="40" r="26" fill="#ffffff22"/><path d="M48 34a12 12 0 1124 0c0 8-12 8-12 16" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><circle cx="60" cy="63" r="4.500" fill="#fff"/>'],
+  mind: ['#A78BFA', '#42D9E8', '<g fill="#fff"><circle cx="30" cy="50" r="8" opacity=".5"/><circle cx="60" cy="30" r="10"/><circle cx="90" cy="50" r="8" opacity=".5"/><circle cx="60" cy="66" r="6" opacity=".8"/></g><path d="M30 50L60 30 90 50 60 66z" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>'],
+  memory: ['#4ADE80', '#42D9E8', '<rect x="22" y="22" width="34" height="42" rx="9" fill="#ffffff33" transform="rotate(-8 39 43)"/><rect x="64" y="22" width="34" height="42" rx="9" fill="#fff" transform="rotate(8 81 43)"/><path d="M81 33l5 10-5 10-5-10z" fill="#4ADE80" transform="rotate(8 81 43)"/>'],
+  reaction: ['#FBBF24', '#FB7185', '<path d="M68 8L36 48h22l-6 26 34-42H62z" fill="#fff"/><circle cx="60" cy="42" r="34" fill="none" stroke="#ffffff55" stroke-width="3"/>'],
+  party: ['#F472B6', '#8B5CF6', '<path d="M24 70l16-42 30 30z" fill="#fff"/><circle cx="80" cy="24" r="5" fill="#FBBF24"/><circle cx="96" cy="44" r="4" fill="#42D9E8"/><circle cx="66" cy="16" r="3" fill="#fff"/>'],
+  duel: ['#FB7185', '#477BFF', '<path d="M28 20l44 44M92 20L48 64" stroke="#fff" stroke-width="8" stroke-linecap="round"/>'],
+  team: ['#42D9E8', '#8B5CF6', '<g fill="#fff"><circle cx="40" cy="34" r="10"/><circle cx="80" cy="34" r="10"/><circle cx="60" cy="42" r="12"/></g><path d="M20 70q20-22 40-14 20-8 40 14z" fill="#ffffffaa"/>'],
+  daily: ['#FBBF24', '#FB923C', '<rect x="26" y="20" width="68" height="50" rx="10" fill="#fff"/><rect x="26" y="20" width="68" height="16" rx="8" fill="#ffffffaa"/><path d="M46 54l10 9 20-20" stroke="#FB923C" stroke-width="6" fill="none" stroke-linecap="round"/>'],
+  mystery: ['#6366F1', '#1e1b4b', '<path d="M12 40q48-36 96 0-48 36-96 0z" fill="#ffffff22"/><circle cx="60" cy="40" r="15" fill="#fff"/><circle cx="60" cy="40" r="7" fill="#1e1b4b"/>']
+};
+function cover(id, size = 72) {
+  const [c1, c2, body] = COVER[id] || COVER.quiz, g = uid('c');
+  return `<svg viewBox="0 0 120 80" width="${size}" height="${Math.round(size * .667)}" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+  <rect width="120" height="80" rx="14" fill="url(#${g})"/><circle cx="100" cy="10" r="30" fill="#fff" opacity=".1"/>${body}</svg>`;
+}
+
+// Territories of WORLD
+const TERRITORIES = [
+  { id: 'brain', name: 'Brain Island', lvl: 1, mode: 'mind', c: ['#7c5cf0', '#2b1d6b'], text: 'Парящий остров лабиринтов и логики. Кристаллы здесь складываются в закономерности.', reward: 30 },
+  { id: 'forest', name: 'Memory Forest', lvl: 2, mode: 'memory', c: ['#2fbf8f', '#0b3b3a'], text: 'Светящиеся грибы и деревья, которые помнят каждый твой шаг.', reward: 40 },
+  { id: 'city', name: 'Reaction City', lvl: 3, mode: 'reaction', c: ['#fb7185', '#3b0b2e'], text: 'Неоновый город, где всё решают миллисекунды.', reward: 50 },
+  { id: 'temple', name: 'Mystery Temple', lvl: 5, mode: 'quiz', c: ['#f59e0b', '#2a1405'], text: 'Древний храм с загадками. Открывается самым любопытным.', reward: 80 }
+];
+function territory(t, locked = false) {
+  const g = uid('t'), [c1, c2] = t.c;
+  const deco = {
+    brain: '<path d="M30 130l30-50 30 50zM70 130l24-34 24 34z" fill="#fff" opacity=".18"/><circle cx="60" cy="40" r="10" fill="#42D9E8" opacity=".8"/>',
+    forest: '<g fill="#7dffd0" opacity=".7"><circle cx="40" cy="96" r="5"/><circle cx="100" cy="86" r="4"/><circle cx="76" cy="110" r="6"/></g><path d="M20 140q10-40 24 0M80 140q14-50 28 0" fill="#0b3b3a"/>',
+    city: '<g fill="#ffffff22"><rect x="16" y="80" width="20" height="60"/><rect x="44" y="60" width="24" height="80"/><rect x="76" y="90" width="18" height="50"/><rect x="100" y="70" width="22" height="70"/></g><g fill="#FBBF24"><rect x="50" y="70" width="4" height="4"/><rect x="58" y="86" width="4" height="4"/><rect x="106" y="82" width="4" height="4"/></g>',
+    temple: '<path d="M26 140V90l34-30 34 30v50z" fill="#ffffff22"/><path d="M50 140v-30h20v30z" fill="#0008"/><circle cx="60" cy="36" r="9" fill="#FBBF24"/>'
+  }[t.id];
+  return `<svg viewBox="0 0 120 150" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+  <rect width="120" height="150" fill="url(#${g})"/>${deco}${locked ? '<rect width="120" height="150" fill="#080B18" opacity=".6"/>' : ''}</svg>`;
+}
+
+// Achievement badge
+function badge(kind, on = true) {
+  const g = uid('k'), col = on ? ['#FBBF24', '#F97316'] : ['#64708f', '#3a4263'];
+  const glyph = {
+    first: '<path d="M12 26l8 8 16-18" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    win5: '<path d="M14 12h20v10a10 10 0 01-20 0zM24 32v6M17 40h14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    play10: '<rect x="10" y="16" width="28" height="18" rx="7" stroke="#fff" stroke-width="4" fill="none"/><path d="M18 22v6M15 25h6" stroke="#fff" stroke-width="3"/>',
+    streak3: '<path d="M24 8c2 9 10 10 10 21a10 10 0 01-20 0c0-4 2-6 4-8 0 4 2 6 4 6 0-6-2-10 2-19z" fill="#fff"/>',
+    lvl5: '<path d="M24 8l5 11 12 1-9 8 3 12-11-7-11 7 3-12-9-8 12-1z" fill="#fff"/>',
+    rich: '<circle cx="24" cy="24" r="14" stroke="#fff" stroke-width="4" fill="none"/><path d="M24 17v14M20 21h6a3 3 0 010 6h-6" stroke="#fff" stroke-width="3.500" fill="none" stroke-linecap="round"/>',
+    fast: '<path d="M26 6L12 26h10l-3 16 17-22H25z" fill="#fff"/>',
+    all: '<path d="M24 6l16 18-16 18L8 24z" fill="#fff"/>'
+  }[kind] || '';
+  return `<svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${col[0]}"/><stop offset="1" stop-color="${col[1]}"/></linearGradient></defs>
+  <path d="M24 2l18 8v14c0 11-8 19-18 22C14 43 6 35 6 24V10z" fill="url(#${g})"/><path d="M24 2l18 8v14c0 11-8 19-18 22" fill="#fff" opacity=".12"/>${glyph}</svg>`;
+}
+
+// Shop previews
+function itemArt(it) {
+  const g = uid('i');
+  if (it.kind === 'frame') return `<svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true"><defs><linearGradient id="${g}"><stop stop-color="${it.c[0]}"/><stop offset="1" stop-color="${it.c[1]}"/></linearGradient></defs><circle cx="40" cy="40" r="30" fill="#1b2245"/><circle cx="40" cy="40" r="30" fill="none" stroke="url(#${g})" stroke-width="7"/><circle cx="40" cy="30" r="9" fill="#A78BFA"/><path d="M22 58q18-22 36 0" fill="#A78BFA"/></svg>`;
+  if (it.kind === 'bg') return `<svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${it.c[0]}"/><stop offset="1" stop-color="${it.c[1]}"/></linearGradient></defs><rect x="4" y="4" width="72" height="72" rx="16" fill="url(#${g})"/><circle cx="58" cy="22" r="9" fill="#fff" opacity=".5"/><path d="M4 60q20-18 36-4t36-6v26H4z" fill="#fff" opacity=".18"/></svg>`;
+  return `<svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true"><defs><radialGradient id="${g}"><stop stop-color="${it.c[0]}"/><stop offset="1" stop-color="${it.c[1]}"/></radialGradient></defs><circle cx="40" cy="40" r="30" fill="url(#${g})"/><circle cx="31" cy="36" r="4" fill="#10162A"/><circle cx="49" cy="36" r="4" fill="#10162A"/><path d="M32 48q8 8 16 0" stroke="#10162A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M20 22l-6-12 14 6zM60 22l6-12-14 6z" fill="${it.c[0]}"/></svg>`;
+}
+
+Object.assign(__exp, { heroScene, cover, TERRITORIES, territory, badge, itemArt });
+return __exp;
+})();
+
+__m["components/avatar"] = (() => {
+const __exp = {};
+const { state, equippedItem } = __m["services/store"];
+const { esc } = __m["components/ui"];
+function avatar(size = 48, frameOverride) {
+  const st = state(), f = frameOverride || equippedItem('frame');
+  const ring = f ? `linear-gradient(135deg,${f.c[0]},${f.c[1]})` : 'linear-gradient(135deg,#8B5CF6,#42D9E8)';
+  return `<div class="avatar" style="width:${size}px;height:${size}px;font-size:${size*.42}px;background:${ring};padding:3px"><div style="width:100%;height:100%;border-radius:50%;background:#1b2245;display:grid;place-items:center;color:#fff">${esc(st.nick[0].toUpperCase())}</div></div>`;
+}
+
+Object.assign(__exp, { avatar });
+return __exp;
+})();
+
+__m["config/config"] = (() => {
+const __exp = {};
+// Public configuration. The anon key is designed to be public (access is enforced by Row Level Security).
+// NEVER put the service_role key, the bot token or the JWT secret here.
+const CONFIG = {
+  SUPABASE_URL: 'https://bfbrfadssgcrrkqkgmzu.supabase.co',       // e.g. https://abcdxyz.supabase.co
+  LEGAL_CONTACT: '',                                              // e.g. '@your_username' — shown in the legal documents; empty = generic text
+  SUPABASE_ANON_KEY: 'sb_publishable_rwEshCqhYvfv_wy3t1eH4w_KKhs34-9'   // Project Settings -> API -> anon public key
+};
+
+Object.assign(__exp, { CONFIG });
+return __exp;
+})();
+
+__m["services/api"] = (() => {
+const __exp = {};
+// Supabase client without external libraries. Works only inside Telegram (needs signed initData) and when CONFIG is filled.
+// Otherwise the app stays in local demo mode.
+const { CONFIG } = __m["config/config"];
+const { initDataRaw } = __m["services/telegram"];
+const S = __m["services/store"];
+let token = null, expAt = 0, myId = null;
+const configured = () => !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY);
+const online = () => !!token;
+const myProfileId = () => myId;
+const base = () => CONFIG.SUPABASE_URL.replace(/\/$/, '');
+
+const MSG = {
+  'insufficient funds': 'Не хватает средств', 'already owned': 'Уже куплено', 'too many requests': 'Слишком часто, подожди немного',
+  'daily limit reached': 'Дневной лимит игр исчерпан', 'already claimed': 'Награда уже получена', 'complete 3 games first': 'Сначала сыграй 3 игры',
+  'account is banned': 'Аккаунт заблокирован', 'player not found': 'Игрок не найден', 'already friends': 'Вы уже друзья',
+  'already in a match': 'Ты уже в матче', 'room not found': 'Комната не найдена', 'room is full': 'Комната заполнена', 'need 2 or 4 players': 'Нужно 2 или 4 игрока', 'match not active': 'Матч уже закончился', 'player does not accept requests': 'Игрок не принимает заявки', 'not allowed': 'Недоступно', 'level too low': 'Уровень пропуска ещё не достигнут', 'reward not available': 'Награда недоступна', 'forbidden': 'Нет прав'
+};
+const friendly = e => { const m = String(e?.message || e); return MSG[Object.keys(MSG).find(k => m.includes(k))] || 'Ошибка сети или сервера'; };
+
+async function login() {
+  const r = await fetch(base() + '/functions/v1/telegram-auth', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CONFIG.SUPABASE_ANON_KEY },
+    body: JSON.stringify({ initData: initDataRaw() })
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'auth_failed');
+  token = j.token; expAt = Date.now() + (j.expires_in - 60) * 1000; myId = j.profile_id;
+}
+async function call(path, init = {}) {
+  if (!token || Date.now() > expAt) await login();
+  const r = await fetch(base() + path, { ...init, headers: { apikey: CONFIG.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json', ...(init.headers || {}) } });
+  const text = await r.text(); let j = null; try { j = text ? JSON.parse(text) : null; } catch { j = text; }
+  if (!r.ok) throw new Error(j?.message || j?.error || 'http_' + r.status);
+  return j;
+}
+const rpc = (name, args = {}) => call('/rest/v1/rpc/' + name, { method: 'POST', body: JSON.stringify(args) });
+
+async function syncAll() {
+  const [p, inv, ua] = await Promise.all([
+    call('/rest/v1/profiles?select=nickname,xp,coins,crystals,streak,equipped&id=eq.' + myId),
+    call('/rest/v1/inventory?select=item_id'), call('/rest/v1/user_achievements?select=achievement_id,unlocked_at')]);
+  S.applyServer(p[0], inv.map(x => x.item_id), Object.fromEntries(ua.map(x => [x.achievement_id, Date.parse(x.unlocked_at)])));
+}
+const patchNickname = n => call('/rest/v1/profiles?id=eq.' + myId, { method: 'PATCH', body: JSON.stringify({ nickname: String(n).trim().slice(0, 16) }) });
+
+async function init() {
+  if (!configured() || !initDataRaw()) return false;
+  try { await login(); await rpc('touch_visit'); await syncAll(); return true; }
+  catch (e) { console.warn('Online mode unavailable, staying in demo mode:', e.message); token = null; return false; }
+}
+
+Object.assign(__exp, { configured, online, myProfileId, friendly, rpc, syncAll, patchNickname, init });
+return __exp;
+})();
+
+__m["components/fx"] = (() => {
+const __exp = {};
+// Visual effects: confetti burst, count-up numbers, score ring. Pure DOM/SVG/CSS, no libraries.
+function confetti(host, n = 46) {
+  const box = document.createElement('div'); box.className = 'confetti'; host.appendChild(box);
+  const cols = ['#42D9E8', '#8B5CF6', '#FBBF24', '#FB7185', '#4ADE80', '#477BFF'];
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('i');
+    p.style.cssText = `left:${Math.random() * 100}%;background:${cols[i % cols.length]};--dx:${(Math.random() - .5) * 160}px;--r:${Math.random() * 720 - 360}deg;animation-delay:${Math.random() * .4}s;animation-duration:${1.8 + Math.random() * 1.4}s;width:${6 + Math.random() * 6}px;height:${8 + Math.random() * 8}px`;
+    box.appendChild(p);
+  }
+  setTimeout(() => box.remove(), 4000);
+}
+function countUp(el, to, ms = 900, prefix = '') {
+  const t0 = performance.now();
+  const step = t => { const k = Math.min(1, (t - t0) / ms); el.textContent = prefix + Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function ring(pct, label, sub, size = 132) {
+  const r = 54, c = 2 * Math.PI * r, id = 'rg' + Math.random().toString(36).slice(2, 7);
+  return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 130 130" width="${size}" height="${size}">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#42D9E8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs>
+    <circle cx="65" cy="65" r="${r}" fill="none" stroke="rgba(155,165,199,.2)" stroke-width="10"/>
+    <circle cx="65" cy="65" r="${r}" fill="none" stroke="url(#${id})" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}" transform="rotate(-90 65 65)" class="ring-arc" style="--to:${c * (1 - Math.max(0.02, pct))}"/></svg>
+    <div class="ring-t"><b>${label}</b><span>${sub}</span></div></div>`;
+}
+
+Object.assign(__exp, { confetti, countUp, ring });
+return __exp;
+})();
+
+__m["pages/home"] = (() => {
+const __exp = {};
+const { lumi } = __m["components/lumi"];
+const { icon, esc } = __m["components/ui"];
+const S = __m["services/store"];
+const { sfx } = __m["services/audio"];
+const { toast } = __m["components/ui"];
+const { PLAYABLE } = __m["games/index"];
+const { heroScene, cover } = __m["components/art"];
+const { avatar } = __m["components/avatar"];
+const api = __m["services/api"];
+const { confetti } = __m["components/fx"];
+const { todayKey } = __m["games/daily"];
+function home(el) {
+  const st = S.state(), L = S.levelInfo(), played = S.playedToday(), claimed = S.dailyClaimed();
+  const can = !claimed && played >= S.DAILY.goal;
+  const last = st.history[0];
+  const rec = PLAYABLE.find(g => g.id === (last?.mode)) || PLAYABLE[0];
+  el.innerHTML = `
+  <div class="top"><div class="row">${avatar(48)}
+    <div><h1 style="font-size:20px">Привет, ${esc(st.nick)}!</h1><span class="muted">Уровень ${L.level}</span></div></div>
+    <a href="#/settings" class="chip" aria-label="Настройки">${icon('gear')}</a></div>
+  <div class="row" style="margin-bottom:12px"><span class="chip">${icon('coin')} ${st.coins}</span><span class="chip" style="color:var(--cyan)">${icon('gem')} ${st.crystals}</span>
+    <span class="chip" style="color:var(--gold)">${icon('flame')} ${st.streak} дн.</span></div>
+  <div class="card hero" style="padding:0;overflow:hidden;position:relative">${heroScene(170)}
+    <div style="position:absolute;right:8px;bottom:-6px">${lumi(played ? 'happy' : 'wave', 120)}</div>
+    <div style="position:absolute;left:14px;right:130px;bottom:14px"><h3 style="text-shadow:0 2px 8px #000a">Готов к приключению?</h3>
+    <p style="font-size:13px;margin:2px 0 6px;text-shadow:0 1px 6px #000a">До ур. ${L.level + 1}: ${L.cur}/${L.max} XP</p><div class="bar"><i style="width:${L.pct}%"></i></div></div></div>
+  <a class="btn block" href="#/play/${rec.id}" style="display:grid;place-items:center;text-decoration:none;margin-top:12px">${last ? 'Продолжить: ' : 'Начать: '}${rec.title}</a>
+  <a class="card row between" href="#/season" style="text-decoration:none;color:inherit;margin-top:12px"><div><b>Сезонный пропуск</b><div class="muted" style="font-size:13px">30 уровней наград за игровой опыт</div></div>${icon('trophy')}</a>
+  <div class="grid2 tiles" style="margin-top:12px">
+    <a class="card tile2" href="#/world">${icon('globe')}<b>Мир</b></a><a class="card tile2" href="#/shop">${icon('bag')}<b>Магазин</b></a>
+    <a class="card tile2" href="#/achievements">${icon('trophy')}<b>Награды</b></a><a class="card tile2" href="#/games">${icon('game')}<b>Все игры</b></a></div>
+  <h2>Ежедневное задание</h2>
+  <div class="card"><div class="row between"><b>Сыграй ${S.DAILY.goal} игры</b><span class="badge">+${S.DAILY.coins} монет, +${S.DAILY.crystals} кристалл</span></div>
+    <div class="bar" style="margin:10px 0"><i style="width:${Math.min(100, played / S.DAILY.goal * 100)}%"></i></div>
+    <div class="row between"><span class="muted">${Math.min(played, S.DAILY.goal)}/${S.DAILY.goal}</span>
+    <button class="btn sm" id="claim" ${can ? '' : 'disabled'}>${claimed ? 'Получено' : 'Забрать'}</button></div></div>
+  <a class="card dq" href="#/play/daily" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;margin-top:12px"><div style="flex:none">${cover('daily', 64)}</div>
+    <div style="flex:1"><h3>Daily Quest</h3><span class="muted">${S.state().dq?.[todayKey()] != null ? 'Выполнено: ' + S.state().dq[todayKey()] + ' очков' : '5 вопросов дня · одна попытка'}</span></div>${icon('back').replace('class="icon"', 'class="icon" style="transform:rotate(180deg)"')}</a>
+  <h2>Рекомендуем</h2>
+  ${PLAYABLE.slice(0, 3).map(g => `<a class="card game" href="#/play/${g.id}" style="text-decoration:none;color:inherit;display:flex;margin-top:10px"><div class="gi" style="background:none;width:auto;height:auto">${cover(g.id, 84)}</div><div><h3>${g.title}</h3><span class="muted">${g.desc}</span></div></a>`).join('')}
+  <p class="muted center" style="margin-top:20px">YOUR WORLD. YOUR ADVENTURE.</p>`;
+  el.querySelector('#claim').onclick = async () => { try { if (api.online()) { await api.rpc('claim_daily'); await api.syncAll(); S.state().claimed[new Date().toISOString().slice(0, 10)] = true; } else if (!S.claimDaily()) return; sfx('reward'); confetti(document.body, 60); toast('Награда получена! +' + S.DAILY.coins + ' монет'); home(el); } catch (e) { toast(api.friendly(e)); } };
+}
+
+Object.assign(__exp, { home });
+return __exp;
+})();
+
+__m["pages/extra"] = (() => {
+const __exp = {};
+const { icon, esc, toast, modal } = __m["components/ui"];
+const { lumi } = __m["components/lumi"];
+const { heroScene, itemArt, badge, territory, TERRITORIES, cover } = __m["components/art"];
+const S = __m["services/store"];
+const { sfx } = __m["services/audio"];
+const { byId } = __m["games/index"];
+const api = __m["services/api"];
+const { avatar } = __m["components/avatar"];
+const { confetti } = __m["components/fx"];
+const rarity = i => i.cur === 'crystals' ? ['epic', 'Эпик'] : i.price >= 120 ? ['rare', 'Редкий'] : ['common', 'Обычный'];
+// Try-on card: shows an item (or the currently equipped set) on the avatar and Lumi.
+function tryOn(it) {
+  const eq = k => (it && it.kind === k) ? it : S.equippedItem(k);
+  const bg = eq('bg'), bgs = bg ? `linear-gradient(135deg,${bg.c[0]},${bg.c[1]})` : 'linear-gradient(135deg,#2b1d6b,#10162A)';
+  return `<div class="tryon" style="background:${bgs}"><div class="tryon-glow"></div>${avatar(64, eq('frame'))}${lumi('happy', 96, eq('skin'))}</div>`;
+}
+const cur = c => c === 'coins' ? icon('coin') : icon('gem');
+
+function shop(el, tab = 'shop', kind = 'frame') {
+  const st = S.state();
+  const items = S.SHOP.filter(i => i.kind === kind && (tab === 'shop' ? !i.season : S.owns(i.id)));
+  el.innerHTML = `<div class="top"><h1>${tab === 'shop' ? 'Магазин' : 'Инвентарь'}</h1>
+    <div class="row"><span class="chip">${icon('coin')} ${st.coins}</span><span class="chip" style="color:var(--cyan)">${icon('gem')} ${st.crystals}</span></div></div>
+  <div class="seg" id="tab"><button data-t="shop" class="${tab === 'shop' ? 'on' : ''}">Магазин</button><button data-t="inv" class="${tab === 'inv' ? 'on' : ''}">Инвентарь</button></div>
+  <div class="tabs" style="margin:12px 0" id="kinds">${Object.entries(S.KINDS).map(([k, t]) => `<button class="chip" data-k="${k}" style="${k === kind ? 'border-color:var(--p2);background:rgba(139,92,246,.25)' : ''}">${t}</button>`).join('')}</div>
+  ${tryOn(null)}
+  ${items.length ? `<div class="grid2">${items.map(i => {
+    const own = S.owns(i.id), on = st.equipped[i.kind] === i.id;
+    const [rk, rt] = rarity(i);
+    return `<div class="card center shopitem r-${rk}" data-id="${i.id}" style="padding:12px;margin:0"><span class="rtag">${rt}</span>${itemArt(i)}<div style="font-weight:600;margin:6px 0 8px;min-height:40px">${esc(i.name)}</div>
+      ${own ? `<button class="btn sm block ${on ? '' : 'ghost'}" data-eq="${i.id}">${on ? 'Надето' : 'Выбрать'}</button>`
+        : `<button class="btn sm block" data-buy="${i.id}" style="display:flex;gap:6px;align-items:center;justify-content:center">${cur(i.cur)} ${i.price}</button>`}</div>`;
+  }).join('')}</div>` : `<div class="card center">${lumi('thinking', 100)}<p class="muted">${tab === 'inv' ? 'Здесь пока пусто. Загляни в магазин!' : 'Нет предметов'}</p></div>`}
+  <p class="muted center" style="margin-top:14px">Только косметика. Игровая валюта — не реальные деньги.</p>`;
+  el.querySelectorAll('#tab button').forEach(b => b.onclick = () => shop(el, b.dataset.t, kind));
+  el.querySelectorAll('#kinds button').forEach(b => b.onclick = () => shop(el, tab, b.dataset.k));
+  el.querySelectorAll('[data-eq]').forEach(b => b.onclick = () => { (async () => { try { if (api.online()) { await api.rpc('equip_item', { p_item: b.dataset.eq }); await api.syncAll(); } else S.equip(b.dataset.eq); sfx('ok'); } catch (e) { toast(api.friendly(e)); } shop(el, tab, kind); })(); });
+  el.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => {
+    const it = S.item(b.dataset.buy);
+    modal(`<div class="center">${tryOn(it)}<h2 style="margin-top:10px">${esc(it.name)}</h2><p class="muted">Цена: ${it.price} ${it.cur === 'coins' ? 'монет' : 'кристаллов'}.<br>У тебя: ${st[it.cur]}</p>
+      <div class="grid2"><button class="btn ghost" id="no">Отмена</button><button class="btn" id="yes">Купить</button></div></div>`, (m, close) => {
+      m.querySelector('#no').onclick = close;
+      m.querySelector('#yes').onclick = async () => { close(); let err = null; try { if (api.online()) { await api.rpc('buy_item', { p_item: it.id }); await api.syncAll(); } else err = S.buy(it.id); } catch (e) { err = api.friendly(e); } if (err) { sfx('bad'); toast(err); } else { sfx('reward'); confetti(document.body, 40); toast('Куплено! Ищи в инвентаре'); shop(el, tab, kind); } };
+    });
+  });
+}
+
+function achievements(el) {
+  const st = S.state(); const done = S.ACH.filter(a => st.ach[a.id]).length;
+  el.innerHTML = `<h1>Достижения</h1><p class="muted">Открыто ${done} из ${S.ACH.length}. Награда выдаётся один раз.</p>
+  ${S.ACH.map(a => { const on = !!st.ach[a.id]; return `<div class="card row" style="margin-top:10px;${on ? '' : 'opacity:.7'}">${badge(a.id, on)}<div style="flex:1"><h3>${a.name}</h3><span class="muted">${a.desc}</span></div><span class="badge">+${a.reward}</span></div>`; }).join('')}`;
+}
+
+function world(el) {
+  const L = S.levelInfo().level, st = S.state();
+  el.innerHTML = `<div style="margin:-14px -16px 0;border-radius:0 0 28px 28px;overflow:hidden;position:relative">${heroScene(210)}
+    <div style="position:absolute;left:16px;bottom:14px"><h1 style="text-shadow:0 2px 10px #000a">Игровой мир</h1></div></div>
+  <div class="card" style="margin-top:12px"><div class="row between"><b>Открыто ${TERRITORIES.filter(t => L >= t.lvl).length} из ${TERRITORIES.length}</b><span class="muted">Твой уровень: ${L}</span></div>
+    <div class="bar" style="margin-top:8px"><i style="width:${TERRITORIES.filter(t => L >= t.lvl).length / TERRITORIES.length * 100}%"></i></div>
+    ${(() => { const n = TERRITORIES.find(t => L < t.lvl); return n ? `<p class="muted" style="margin:8px 0 0;font-size:14px">Следующая: <b>${n.name}</b> на ${n.lvl} уровне</p>` : '<p class="muted" style="margin:8px 0 0">Все территории открыты!</p>'; })()}</div>
+  ${TERRITORIES.map(t => { const open = L >= t.lvl, g = byId(t.mode), played = st.stats[t.mode]?.played || 0;
+    return `<div class="card terr ${open ? 'open' : ''}" style="padding:0;overflow:hidden;margin-top:12px;display:flex;min-height:132px">
+      <div style="width:112px;flex:none">${territory(t, !open)}</div>
+      <div style="padding:14px;flex:1"><div class="row between"><h3>${t.name}</h3>${open ? '' : icon('lock')}</div>${open ? '' : `<div class="bar" style="height:6px;margin:6px 0"><i style="width:${Math.min(100, L / t.lvl * 100)}%"></i></div>`}
+      <p class="muted" style="font-size:14px;margin:4px 0 8px">${open ? t.text : 'Откроется на ' + t.lvl + ' уровне'}</p>
+      ${open ? `<div class="row between"><span class="badge">Сыграно: ${played}</span><a class="btn sm" href="#/play/${t.mode}" style="display:grid;place-items:center;text-decoration:none">${g.title}</a></div>` : ''}</div></div>`; }).join('')}
+  <p class="muted center" style="margin-top:14px">Новые территории появятся позже через админ-панель.</p>`;
+}
+
+Object.assign(__exp, { rarity, shop, achievements, world });
+return __exp;
+})();
+
+__m["pages/pages"] = (() => {
+const __exp = {};
+const { icon, esc, toast } = __m["components/ui"];
+const { lumi } = __m["components/lumi"];
+const S = __m["services/store"];
+const { sfx, applyAudioSettings } = __m["services/audio"];
+const { PLAYABLE, MULTI, byId } = __m["games/index"];
+const { cover } = __m["components/art"];
+const { avatar } = __m["components/avatar"];
+const api = __m["services/api"];
+const { confetti, countUp, ring } = __m["components/fx"];
+const { todayKey } = __m["games/daily"];
+const DIFFS = [['easy', 'Легко'], ['normal', 'Средне'], ['hard', 'Сложно']];
+
+function games(el) {
+  el.innerHTML = `<h1>Игры</h1><p class="muted">${PLAYABLE.length} режимов для одного игрока и 2 онлайн-режима.</p>
+  ${PLAYABLE.map(g => `<a class="card game" href="#/play/${g.id}" style="text-decoration:none;color:inherit;display:flex;margin-top:12px">
+    <div class="gi" style="background:none;width:auto;height:auto">${cover(g.id, 84)}</div><div><h3>${g.title}</h3><span class="muted">${g.desc}</span></div></a>`).join('')}
+  <h2>Мультиплеер <span class="badge">онлайн</span></h2>
+  ${MULTI.map(g => `<a class="card game" href="#/mp/${g.id}" style="text-decoration:none;color:inherit;display:flex;margin-top:12px">
+    <div class="gi" style="background:none;width:auto;height:auto">${cover(g.id, 84)}</div><div><h3>${g.title}</h3><span class="muted">${g.desc}</span></div></a>`).join('')}`;
+}
+
+// Returns cleanup
+function play(el, id, nav) {
+  const g = byId(id);
+  if (!g) { el.innerHTML = '<div class="card">Режим не найден.</div>'; return; }
+  let cleanup = null, diff = 'normal';
+  const intro = () => {
+    cleanup?.(); cleanup = null;
+    const done = g.once && S.state().dq?.[todayKey()] != null;
+    if (g.once) diff = 'normal';
+    if (done) { el.innerHTML = `<div class="intro-hero"><div class="intro-cover">${cover(g.id, 120)}</div><h1>${g.title}</h1><p class="muted">Сегодняшнее задание уже выполнено.<br>Новый набор вопросов будет завтра!</p></div>
+      <div class="card center" style="margin-top:14px"><b>Результат дня</b><div style="font-size:30px;font-weight:800;margin-top:4px">${S.state().dq[todayKey()]}</div><span class="muted">очков</span></div>
+      <a class="btn ghost block" href="#/games" style="display:grid;place-items:center;text-decoration:none;margin-top:14px">Все игры</a>`; return; }
+    el.innerHTML = `<div class="intro-hero"><div class="intro-cover">${cover(g.id, 120)}</div><h1>${g.title}</h1><p class="muted">${g.desc}</p></div>${g.once ? '<div class="card center" style="margin-top:12px"><span class="badge">Одна попытка в день</span></div>' : '<h2>Сложность</h2>'}
+      <div class="seg" ${g.once ? 'hidden' : ''} id="seg">${DIFFS.map(([k, t]) => `<button data-d="${k}" class="${k === diff ? 'on' : ''}">${t}</button>`).join('')}</div>
+      ${g.once ? '' : '<p class="muted" style="margin-top:10px">Сложнее — больше XP и монет.</p>'}
+      <button class="btn block" id="go" style="margin-top:14px">Играть</button>`;
+    el.querySelectorAll('#seg button').forEach(b => b.onclick = () => { diff = b.dataset.d; el.querySelectorAll('#seg button').forEach(x => x.classList.toggle('on', x === b)); sfx('tap'); });
+    el.querySelector('#go').onclick = run;
+  };
+  const run = () => {
+    sfx('portal');
+    const box = document.createElement('div'); el.innerHTML = ''; el.appendChild(box);
+    cleanup = g.start(box, { diff, finish: res => results(res) });
+  };
+  const results = async res => {
+    cleanup?.(); cleanup = null;
+    if (g.once) { const dq = (S.state().dq ||= {}); dq[todayKey()] = res.score; }
+    let r = S.recordGame({ mode: g.id, score: res.score, max: res.max, win: res.win, diff });
+    let win = res.win, fresh = [];
+    if (api.online()) {
+      // Server recomputes win, XP and coins; local numbers are only a fallback.
+      try {
+        const sv = await api.rpc('submit_game_result', { p_request_id: crypto.randomUUID(), p_mode: g.id, p_diff: diff, p_score: res.score, p_max: res.max });
+        r = { xp: sv.xp, coins: sv.coins, lvlUp: !!sv.level_up }; win = !!sv.win;
+        const ids = await api.rpc('check_achievements'); fresh = S.ACH.filter(a => ids.includes(a.id));
+        await api.syncAll();
+      } catch (e) { toast(api.friendly(e)); }
+    } else fresh = S.checkAchievements();
+    sfx(win ? 'win' : 'lose'); if (fresh.length) setTimeout(() => { sfx('reward'); toast('Достижение: ' + fresh[0].name); }, 900); if (r.coins) setTimeout(() => sfx('coin'), 500);
+    const pct = res.max ? Math.min(1, res.score / res.max) : 0, L = S.levelInfo();
+    el.innerHTML = `<div class="center res"><div class="res-glow ${win ? 'w' : ''}"></div>${lumi(win ? 'victory' : 'thinking', 140)}<h1>${win ? 'Победа!' : 'Хорошая попытка'}</h1>
+      <div style="display:grid;place-items:center;margin:8px 0">${ring(pct, res.score, 'из ' + res.max)}</div>
+      ${res.extra ? `<p class="muted">${esc(res.extra)}</p>` : ''}</div>
+      <div class="card grid2 center res-r"><div><b class="rv" id="rx">+0</b><br><span class="muted">XP</span></div><div><b class="rv" id="rc">+0</b><br><span class="muted">монет</span></div></div>
+      <div class="card" style="margin-top:12px"><div class="row between"><b>Уровень ${L.level}</b><span class="muted">${L.cur}/${L.max} XP</span></div><div class="bar" style="margin-top:8px"><i id="lb" style="width:0"></i></div></div>
+      ${r.lvlUp ? '<p class="center badge lvl-up" style="display:block;margin-top:12px">Новый уровень! +25 монет</p>' : ''}
+      <button class="btn block" id="again" style="margin-top:14px">Играть снова</button>
+      <a class="btn ghost block" href="#/games" style="display:grid;place-items:center;text-decoration:none;margin-top:10px">Все игры</a>`;
+    countUp(el.querySelector('#rx'), r.xp, 900, '+'); countUp(el.querySelector('#rc'), r.coins, 900, '+');
+    setTimeout(() => { const b = el.querySelector('#lb'); if (b) b.style.width = L.pct + '%'; }, 80);
+    if (win || r.lvlUp) confetti(el, r.lvlUp ? 80 : 46);
+    el.querySelector('#again').onclick = intro;
+    if (g.once) el.querySelector('#again').hidden = true;
+  };
+  intro();
+  return () => cleanup?.();
+}
+
+function profile(el) {
+  const st = S.state(), L = S.levelInfo(), T = S.totals();
+  el.innerHTML = `<div class="top"><h1>Профиль</h1><a href="#/settings" class="chip" aria-label="Настройки">${icon('gear')}</a></div>
+  <div class="card center" style="${S.equippedItem('bg') ? `background:linear-gradient(135deg,${S.equippedItem('bg').c[0]}cc,${S.equippedItem('bg').c[1]}cc)` : ''}"><div style="display:grid;place-items:center;margin-bottom:8px">${avatar(84)}</div>
+    <h2 style="margin:0">${esc(st.nick)}</h2><span class="muted">ID: ${st.id}</span>
+    <p style="margin-top:10px">Уровень ${L.level}</p><div class="bar"><i style="width:${L.pct}%"></i></div><span class="muted">${L.cur}/${L.max} XP</span></div>
+  <div class="grid2" style="margin-top:12px"><div class="card center"><b style="font-size:22px">${T.played}</b><br><span class="muted">игр</span></div>
+    <div class="card center"><b style="font-size:22px">${T.wins}</b><br><span class="muted">побед</span></div>
+    <div class="card center"><b style="font-size:22px">${st.coins}</b><br><span class="muted">Verse Coins</span></div>
+    <div class="card center"><b style="font-size:22px">${st.crystals}</b><br><span class="muted">Crystals</span></div></div>
+  <p class="muted" style="margin-top:12px">Любимый режим: ${T.fav ? byId(T.fav)?.title : '—'} · с ${new Date(st.created).toLocaleDateString('ru-RU')}</p>
+  <div class="grid2" style="margin-top:12px"><a class="btn ghost" href="#/achievements" style="display:grid;place-items:center;text-decoration:none">Достижения</a><a class="btn ghost" href="#/shop" style="display:grid;place-items:center;text-decoration:none">Магазин</a></div>
+  <h2>История игр</h2>${st.history.slice(0, 8).map(h => `<div class="card row between" style="margin-top:8px"><b>${byId(h.mode)?.title || h.mode}</b><span class="${h.win ? '' : 'muted'}">${h.win ? 'Победа' : 'Поражение'} · ${h.score}</span></div>`).join('') || '<p class="muted">Пока пусто.</p>'}`;
+}
+
+function settings(el, applyTheme) {
+  const s = S.state().settings, st = S.state();
+  el.innerHTML = `<h1>Настройки</h1>
+  <div class="card"><label class="muted">Никнейм</label><div class="row" style="margin-top:6px"><input type="text" id="nick" maxlength="16" value="${esc(st.nick)}"><button class="btn sm" id="sn">OK</button></div></div>
+  <div class="card"><b>Тема</b><div class="seg" style="margin-top:8px" id="th"><button data-t="dark" class="${s.theme === 'dark' ? 'on' : ''}">Тёмная</button><button data-t="light" class="${s.theme === 'light' ? 'on' : ''}">Светлая</button></div></div>
+  <div class="card"><div class="row between"><b>Музыка</b><button class="btn sm ${s.music ? '' : 'ghost'}" id="mu">${s.music ? 'Вкл' : 'Выкл'}</button></div>
+    <div class="row between" style="margin-top:10px"><b>Звуки</b><button class="btn sm ${s.sfx ? '' : 'ghost'}" id="sf">${s.sfx ? 'Вкл' : 'Выкл'}</button></div>
+    <label class="muted" style="display:block;margin-top:10px">Громкость</label><input type="range" id="vol" min="0" max="1" step="0.05" value="${s.volume}"></div>
+  <a class="card doccard" href="#/docs" style="margin-top:12px!important"><span class="di">${icon('doc')}</span><div style="flex:1"><b>Документы</b><br><span class="muted">Соглашение, конфиденциальность, правила, безопасность</span></div>${icon('next')}</a>
+  <p class="muted center">${api.online() ? 'Онлайн-режим: данные хранятся на сервере.' : 'Демо-режим: данные хранятся только на этом устройстве.'}</p>`;
+  el.querySelector('#sn').onclick = () => { S.setNick(el.querySelector('#nick').value); if (api.online()) api.patchNickname(el.querySelector('#nick').value).catch(e => toast(api.friendly(e))); toast('Сохранено'); };
+  el.querySelectorAll('#th button').forEach(b => b.onclick = () => { S.setSetting('theme', b.dataset.t); applyTheme(); settings(el, applyTheme); });
+  el.querySelector('#mu').onclick = () => { S.setSetting('music', !s.music); applyAudioSettings(); settings(el, applyTheme); };
+  el.querySelector('#sf').onclick = () => { S.setSetting('sfx', !s.sfx); settings(el, applyTheme); sfx('tap'); };
+  el.querySelector('#vol').oninput = e => { S.setSetting('volume', +e.target.value); applyAudioSettings(); };
+}
+
+Object.assign(__exp, { games, play, profile, settings });
+return __exp;
+})();
+
+__m["pages/social"] = (() => {
+const __exp = {};
+const { icon, esc, toast, modal } = __m["components/ui"];
+const { lumi } = __m["components/lumi"];
+const S = __m["services/store"];
+const api = __m["services/api"];
+const { sfx } = __m["services/audio"];
+const { PLAYABLE, byId } = __m["games/index"];
+const init = n => esc((n || '?')[0].toUpperCase());
+const podiumSlot = (r, place) => `<div class="pl p${place}"><div class="pav">${r ? init(r.nickname) : '?'}</div><div class="pn">${r ? esc(r.nickname) : 'Свободно'}</div>
+  <div class="pb"><i>${place}</i>${r ? `<small>${r.score}</small>` : ''}</div></div>`;
+
+async function rating(el, scope = 'all', mode = '') {
+  const tabs = [['all', 'Всё время'], ['day', 'Сегодня'], ['week', 'Неделя']];
+  const head = `<h1>Рейтинг</h1>
+    <div class="seg" id="sc">${tabs.map(([k, t]) => `<button data-s="${k}" class="${k === scope ? 'on' : ''}">${t}</button>`).join('')}</div>
+    <div class="tabs" id="md" style="margin:12px 0"><button class="chip" data-m="" style="${!mode ? 'border-color:var(--p2)' : ''}">Все игры</button>
+      ${PLAYABLE.map(g => `<button class="chip" data-m="${g.id}" style="${mode === g.id ? 'border-color:var(--p2)' : ''}">${g.title}</button>`).join('')}</div>`;
+  const bind = () => {
+    el.querySelectorAll('#sc button').forEach(b => b.onclick = () => rating(el, b.dataset.s, mode));
+    el.querySelectorAll('#md button').forEach(b => b.onclick = () => rating(el, scope, b.dataset.m));
+  };
+  if (!api.online()) {
+    el.innerHTML = head + `<div class="podium">${podiumSlot(null, 2)}${podiumSlot(null, 1)}${podiumSlot(null, 3)}</div>
+      <div class="card center">${lumi('thinking', 100)}<h3>Общий рейтинг — в онлайн-режиме</h3>
+      <p class="muted">Он считается на сервере и доступен внутри Telegram после подключения Supabase. Ниже — твои личные рекорды (только на этом устройстве).</p></div>
+      <h2>Твои рекорды</h2>${Object.entries(S.state().stats).map(([m, s]) => `<div class="card row between" style="margin-top:8px"><b>${byId(m)?.title || m}</b><span class="muted">лучший: ${s.best} · игр: ${s.played}</span></div>`).join('') || '<p class="muted">Сыграй первую игру!</p>'}`;
+    bind(); return;
+  }
+  el.innerHTML = head + '<p class="muted center">Загрузка…</p>'; bind();
+  let rows = [];
+  try { rows = await api.rpc('leaderboard', { p_scope: scope, p_mode: mode || null }); }
+  catch (e) { el.querySelector('p.center').textContent = api.friendly(e); return; }
+  const me = api.myProfileId();
+  el.innerHTML = head + `<div class="podium">${podiumSlot(rows[1], 2)}${podiumSlot(rows[0], 1)}${podiumSlot(rows[2], 3)}</div>
+    ${rows.slice(3).map(r => `<div class="card row between" style="margin-top:8px;${r.user_id === me ? 'border-color:var(--cyan)' : ''}"><span class="row"><b style="width:28px">${r.rank}</b>${esc(r.nickname)}</span><b>${r.score}</b></div>`).join('')}
+    ${rows.length ? '' : '<div class="card center muted">Пока никого. Сыграй первым!</div>'}
+    <p class="muted center" style="margin-top:12px">Очки — сумма XP за период. Скрытые профили и заблокированные игроки не показываются.</p>`;
+  bind();
+}
+
+const REASONS = ['Оскорбления', 'Спам', 'Неприемлемый ник', 'Другое'];
+async function friends(el) {
+  if (!api.online()) {
+    el.innerHTML = `<h1>Друзья</h1><div class="card center">${lumi('thinking', 120)}<h3>Друзья — в онлайн-режиме</h3>
+      <p class="muted">Поиск игроков, заявки, блокировки и жалобы работают через сервер (Supabase) внутри Telegram. В демо-режиме они отключены, чтобы не показывать выдуманных людей.</p></div>`;
+    return;
+  }
+  el.innerHTML = '<h1>Друзья</h1><p class="muted center">Загрузка…</p>';
+  let o; try { o = await api.rpc('friends_overview'); } catch (e) { el.innerHTML = `<h1>Друзья</h1><p class="muted center">${api.friendly(e)}</p>`; return; }
+  const act = async (fn, okMsg) => { try { await fn(); sfx('ok'); if (okMsg) toast(okMsg); friends(el); } catch (e) { sfx('bad'); toast(api.friendly(e)); } };
+  el.innerHTML = `<h1>Друзья</h1>
+    <div class="row"><input type="text" id="q" placeholder="Найти игрока по нику" maxlength="16"><button class="btn sm" id="find">Найти</button></div><div id="res"></div>
+    ${o.incoming.length ? `<h2>Входящие заявки</h2>${o.incoming.map(r => `<div class="card row between" style="margin-top:8px"><b>${esc(r.nickname)}</b><span class="row"><button class="btn sm" data-acc="${r.id}">Принять</button><button class="btn sm ghost" data-dec="${r.id}">Отклонить</button></span></div>`).join('')}` : ''}
+    <h2>Мои друзья (${o.friends.length})</h2>
+    ${o.friends.map(f => `<div class="card row between" style="margin-top:8px"><span><b>${esc(f.nickname)}</b><br><span class="muted">Уровень ${f.level}</span></span>
+      <span class="row"><button class="btn sm ghost" data-rep="${f.id}">Жалоба</button><button class="btn sm ghost" data-blk="${f.id}">Блок</button><button class="btn sm ghost" data-del="${f.id}">Удалить</button></span></div>`).join('') || '<p class="muted">Пока нет друзей — найди кого-нибудь по нику.</p>'}
+    ${o.outgoing.length ? `<h2>Отправленные</h2>${o.outgoing.map(r => `<div class="card row between" style="margin-top:8px"><b>${esc(r.nickname)}</b><span class="muted">Ожидает</span></div>`).join('')}` : ''}`;
+  el.querySelector('#find').onclick = async () => {
+    const q = el.querySelector('#q').value; const box = el.querySelector('#res'); box.innerHTML = '';
+    try {
+      const list = await api.rpc('search_players', { p_query: q });
+      box.innerHTML = list.map(p => `<div class="card row between" style="margin-top:8px"><span><b>${esc(p.nickname)}</b><br><span class="muted">Уровень ${p.level}</span></span><button class="btn sm" data-add="${p.id}">Добавить</button></div>`).join('') || '<p class="muted">Никого не нашли (минимум 2 символа).</p>';
+      box.querySelectorAll('[data-add]').forEach(b => b.onclick = () => act(() => api.rpc('send_friend_request', { p_to: b.dataset.add }), 'Заявка отправлена'));
+    } catch (e) { toast(api.friendly(e)); }
+  };
+  el.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => act(() => api.rpc('respond_friend_request', { p_id: +b.dataset.acc, p_accept: true }), 'Теперь вы друзья'));
+  el.querySelectorAll('[data-dec]').forEach(b => b.onclick = () => act(() => api.rpc('respond_friend_request', { p_id: +b.dataset.dec, p_accept: false })));
+  el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => act(() => api.rpc('remove_friend', { p_other: b.dataset.del })));
+  el.querySelectorAll('[data-blk]').forEach(b => b.onclick = () => modal(`<h2 style="margin-top:0">Заблокировать игрока?</h2><p class="muted">Он исчезнет из друзей и не сможет отправлять тебе заявки.</p><div class="grid2"><button class="btn ghost" id="no">Отмена</button><button class="btn" id="yes">Заблокировать</button></div>`, (m, close) => {
+    m.querySelector('#no').onclick = close; m.querySelector('#yes').onclick = () => { close(); act(() => api.rpc('block_user', { p_other: b.dataset.blk }), 'Игрок заблокирован'); };
+  }));
+  el.querySelectorAll('[data-rep]').forEach(b => b.onclick = () => modal(`<h2 style="margin-top:0">Пожаловаться</h2>${REASONS.map(r => `<button class="opt" data-r="${r}">${r}</button>`).join('')}`, (m, close) => {
+    m.querySelectorAll('[data-r]').forEach(x => x.onclick = () => { close(); act(() => api.rpc('report_user', { p_target: b.dataset.rep, p_reason: x.dataset.r }), 'Жалоба отправлена модераторам'); });
+  }));
+}
+
+Object.assign(__exp, { rating, friends });
+return __exp;
+})();
+
+__m["pages/multi"] = (() => {
+const __exp = {};
+// Online multiplayer: Duel Zone (1v1) and Team Arena (2v2). All match state lives on the server (see 0007_multiplayer.sql);
+// the client polls mp_state every ~1.2 s and sends one result per answered question. Nothing here is simulated.
+const { esc, toast } = __m["components/ui"];
+const { lumi } = __m["components/lumi"];
+const { cover } = __m["components/art"];
+const { confetti } = __m["components/fx"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+const { MULTI } = __m["games/index"];
+const { Q, CATS } = __m["games/quiz"];
+const { seededQuestions } = __m["games/seed"];
+const api = __m["services/api"];
+const TIME = 15; // seconds per question
+const TEAM_COLOR = ['var(--cyan)', '#F472B6'];
+const TEAM_NAME = ['Синие', 'Розовые'];
+
+function multi(el, mode) {
+  const g = MULTI.find(x => x.id === mode);
+  if (!g) { el.innerHTML = '<div class="card">Режим не найден.</div>'; return; }
+  const team = mode === 'team';
+  let alive = true, poll = null, timer = null, matchId = null, view = '', lastKey = '', failures = 0, busy = false;
+  let latest = null, questions = null, qi = 0, myScore = 0, queue = Promise.resolve(), vsTimer = null;
+  const stop = () => { alive = false; clearInterval(poll); clearInterval(timer); clearTimeout(vsTimer); };
+  const head = () => `<div class="intro-hero"><div class="intro-cover">${cover(g.id, 100)}</div><h1>${g.title}</h1><p class="muted">${g.desc}</p></div>`;
+
+  if (!api.online()) {
+    el.innerHTML = `${head()}<div class="card center" style="margin-top:14px">${lumi('thinking', 90)}<h3>Нужен онлайн</h3>
+      <p class="muted">Мультиплеер работает на сервере. Открой VELORA из Telegram-бота с подключением к интернету — здесь это недоступно, а «ботов вместо людей» мы не подставляем.</p></div>
+      <a class="btn ghost block" href="#/games" style="display:grid;place-items:center;text-decoration:none;margin-top:12px">Все игры</a>`;
+    return stop;
+  }
+
+  // ---------- lobby ----------
+  const lobby = () => {
+    view = 'lobby'; matchId = null; clearInterval(poll); clearInterval(timer); lastKey = '';
+    el.innerHTML = `${head()}
+      <button class="btn block" id="quick" style="margin-top:14px">Быстрый поиск</button>
+      <button class="btn ghost block" id="create" style="margin-top:10px">Создать комнату для друзей</button>
+      <div class="card" style="margin-top:14px"><b>Войти по коду</b>
+        <div class="row" style="margin-top:8px"><input type="text" id="code" maxlength="4" placeholder="КОД" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:6px;text-align:center;font-weight:700"><button class="btn" id="join">Войти</button></div></div>
+      <p class="muted center" style="margin-top:14px">${team ? 'Команды 2 на 2: синие против розовых, очки складываются.' : 'Дуэль: 7 одинаковых вопросов, по 15 секунд на каждый.'}<br>Награды за онлайн-матчи пока не начисляются — это защита от накрутки.</p>
+      <a class="btn ghost block" href="#/games" style="display:grid;place-items:center;text-decoration:none;margin-top:12px">Все игры</a>`;
+    const run = async fn => { if (busy) return; busy = true; try { enter(await fn()); } catch (e) { sfx('bad'); toast(api.friendly(e)); } busy = false; };
+    el.querySelector('#quick').onclick = () => run(() => api.rpc('mp_quick', { p_mode: mode }));
+    el.querySelector('#create').onclick = () => run(() => api.rpc('mp_create', { p_mode: mode }));
+    el.querySelector('#join').onclick = () => { const c = el.querySelector('#code').value.trim(); if (c.length < 4) return toast('Введи код из 4 символов'); run(() => api.rpc('mp_join', { p_code: c })); };
+  };
+
+  // ---------- polling ----------
+  const enter = id => {
+    matchId = id; view = ''; lastKey = ''; questions = null; qi = 0; myScore = 0;
+    clearInterval(poll); tick(); poll = setInterval(tick, 1200);
+  };
+  const tick = async () => {
+    if (!alive || !matchId) return;
+    try { const st = await api.rpc('mp_state', { p_match: matchId }); failures = 0; if (alive && matchId) onState(st); }
+    catch (e) { if (++failures === 3) toast('Нет связи с сервером…'); if (String(e.message).includes('forbidden')) lobby(); }
+  };
+  const me = st => st.players.find(p => p.me);
+  const onState = st => {
+    if (st.status === 'cancelled') { toast('Комната закрыта'); return lobby(); }
+    if (st.status === 'waiting') return waiting(st);
+    if (st.status === 'finished') return result(st);
+    // active
+    if (view === 'play' || view === 'vs' || view === 'done') return updateBoard(st);
+    if (me(st).done) return doneScreen(st);
+    versus(st);
+  };
+
+  // ---------- waiting room ----------
+  const waiting = st => {
+    const key = 'w' + JSON.stringify(st.players.map(p => p.nick)) + st.is_host;
+    if (view === 'wait' && key === lastKey) return; view = 'wait'; lastKey = key;
+    const n = st.players.length, even = n >= 2 && n % 2 === 0;
+    const slots = Array.from({ length: st.max_players }, (_, i) => st.players[i]
+      ? `<div class="slot on"><span class="pav" style="border-color:${TEAM_COLOR[st.players[i].team]}">${esc(st.players[i].nick[0].toUpperCase())}</span><b>${esc(st.players[i].nick)}${st.players[i].me ? ' (ты)' : ''}</b>${team ? `<span class="muted">${TEAM_NAME[st.players[i].team]}</span>` : ''}</div>`
+      : `<div class="slot"><span class="pav pulse">?</span><span class="muted">Ждём игрока…</span></div>`).join('');
+    el.innerHTML = `${head()}
+      <div class="card center" style="margin-top:12px"><span class="muted">Код комнаты</span><div class="roomcode" id="cp" role="button">${esc(st.code)}</div>
+        <span class="muted">Нажми, чтобы скопировать. Друг вводит его в разделе «${g.title}» → «Войти по коду».</span></div>
+      <div class="slots" style="margin-top:12px">${slots}</div>
+      ${team && st.is_host ? `<button class="btn block" id="start" style="margin-top:12px" ${even ? '' : 'disabled'}>Начать матч (${n}/${st.max_players})</button><p class="muted center" style="margin-top:6px">${even ? 'Можно начинать — или дождись полной команды.' : 'Нужно 2 или 4 игрока.'}</p>` : `<p class="muted center" style="margin-top:12px">${team ? 'Матч начнётся, когда хозяин комнаты нажмёт «Начать» или соберётся 4 игрока.' : 'Матч начнётся сразу, как только зайдёт соперник.'}</p>`}
+      <button class="btn ghost block" id="leave" style="margin-top:12px">Выйти из комнаты</button>`;
+    el.querySelector('#cp').onclick = () => { try { navigator.clipboard.writeText(st.code); } catch {} toast('Код скопирован'); sfx('ok'); };
+    el.querySelector('#leave').onclick = async () => { try { await api.rpc('mp_leave', { p_match: matchId }); } catch {} lobby(); };
+    const s = el.querySelector('#start'); if (s) s.onclick = async () => { try { await api.rpc('mp_start', { p_match: matchId }); tick(); } catch (e) { toast(api.friendly(e)); } };
+  };
+
+  // ---------- versus intro ----------
+  const versus = st => {
+    view = 'vs'; sfx('portal'); haptic('medium');
+    const side = t => st.players.filter(p => p.team === t).map(p => `<div class="vsp"><span class="pav" style="border-color:${TEAM_COLOR[t]}">${esc(p.nick[0].toUpperCase())}</span><b>${esc(p.me ? 'Ты' : p.nick)}</b></div>`).join('');
+    el.innerHTML = `<div class="center vs"><h1>Матч начался!</h1><div class="vsrow"><div>${side(0)}</div><div class="vsx">VS</div><div>${side(1)}</div></div><p class="muted">Приготовься…</p></div>`;
+    vsTimer = setTimeout(() => { if (alive && view === 'vs') beginPlay(st); }, 1800);
+  };
+
+  // ---------- gameplay ----------
+  const board = st => {
+    const rows = st.players.map(p => `<div class="sbrow ${p.me ? 'me' : ''}"><span class="dot" style="background:${TEAM_COLOR[p.team]}"></span><span class="sbn">${esc(p.me ? 'Ты' : p.nick)}</span>
+      <div class="bar" style="flex:1;height:6px"><i style="width:${p.answered / st.n * 100}%;background:${TEAM_COLOR[p.team]}"></i></div><b>${p.score}</b></div>`).join('');
+    const tt = team ? `<div class="row between" style="margin-bottom:6px"><b style="color:${TEAM_COLOR[0]}">${TEAM_NAME[0]}: ${st.team_scores[0]}</b><b style="color:${TEAM_COLOR[1]}">${TEAM_NAME[1]}: ${st.team_scores[1]}</b></div>` : '';
+    return tt + rows;
+  };
+  const updateBoard = st => { latest = st; const b = el.querySelector('#sb'); if (b) b.innerHTML = board(st); };
+  const send = (idx, points) => {
+    queue = queue.then(async () => {
+      for (let a = 0; a < 3; a++) {
+        try { await api.rpc('mp_submit', { p_match: matchId, p_idx: idx, p_points: points }); return; }
+        catch (e) { if (!String(e.message).includes('too many')) { if (String(e.message).includes('not active')) return; if (a === 2) toast(api.friendly(e)); } await new Promise(r => setTimeout(r, 900)); }
+      }
+    });
+  };
+  const beginPlay = st => {
+    questions = seededQuestions(Q, st.seed, st.n); qi = me(st).answered; myScore = me(st).score; view = 'play'; question(st);
+  };
+  const question = st => {
+    latest = st; if (qi >= questions.length) { view = 'done'; return doneScreen(latest); }
+    const q = questions[qi]; let left = TIME, locked = false;
+    el.innerHTML = `<div class="card sb" id="sb">${board(st)}</div>
+      <div class="row between muted" style="margin-top:12px"><span>${qi + 1}/${questions.length} · ${CATS[q.cat]}</span><b id="t">${left}</b></div>
+      <div class="bar" style="margin:8px 0"><i id="tb" style="width:100%"></i></div>
+      <div class="card"><h3>${esc(q.q)}</h3></div>
+      ${q.opts.map((o, k) => `<button class="opt" data-k="${k}" style="animation-delay:${k * 70}ms"><span class="ol">${'ABCD'[k]}</span>${esc(o.t)}</button>`).join('')}`;
+    const answer = k => {
+      if (locked || !alive) return; locked = true; clearInterval(timer);
+      const ok = k >= 0 && q.opts[k].ok, pts = ok ? 50 + Math.round(50 * left / TIME) : 0;
+      myScore += pts; if (ok) { sfx('ok'); haptic('success'); } else { sfx('bad'); haptic('error'); }
+      el.querySelectorAll('.opt').forEach((b, n) => { if (q.opts[n].ok) b.classList.add('ok'); else if (n === k) b.classList.add('bad'); });
+      send(qi, pts); qi++;
+      setTimeout(() => { if (alive && view === 'play') question(latest); }, 900);
+    };
+    el.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.k));
+    clearInterval(timer);
+    timer = setInterval(() => {
+      left--; const t = el.querySelector('#t'); if (t) t.textContent = left;
+      const tb = el.querySelector('#tb'); if (tb) { tb.style.width = left / TIME * 100 + '%'; tb.classList.toggle('low', left <= 4); }
+      if (left <= 0) answer(-1);
+    }, 1000);
+  };
+  const doneScreen = st => {
+    view = 'done'; clearInterval(timer);
+    el.innerHTML = `<div class="center">${lumi('thinking', 110)}<h1>Ты закончил!</h1><p class="muted">Ждём остальных игроков…</p></div><div class="card sb" id="sb">${board(st)}</div>`;
+  };
+
+  // ---------- result ----------
+  const result = st => {
+    if (view === 'result') return; view = 'result'; clearInterval(timer); clearInterval(poll);
+    const m = me(st), win = st.winner_team === m.team, draw = st.winner_team === -1;
+    sfx(win ? 'win' : 'lose'); haptic(win ? 'success' : 'warning'); if (win) setTimeout(() => confetti(document.body, 60), 200);
+    const sorted = [...st.players].sort((a, b) => b.score - a.score);
+    el.innerHTML = `<div class="center res"><div class="res-glow ${win ? 'w' : ''}"></div>${lumi(win ? 'victory' : draw ? 'happy' : 'thinking', 130)}
+      <h1>${draw ? 'Ничья!' : win ? 'Победа!' : 'Поражение'}</h1>
+      ${team ? `<p><b style="color:${TEAM_COLOR[0]}">${TEAM_NAME[0]} ${st.team_scores[0]}</b> : <b style="color:${TEAM_COLOR[1]}">${st.team_scores[1]} ${TEAM_NAME[1]}</b></p>` : ''}</div>
+      <div class="card">${sorted.map((p, i) => `<div class="sbrow ${p.me ? 'me' : ''}" style="padding:8px 0"><b style="width:22px">${i + 1}</b><span class="dot" style="background:${TEAM_COLOR[p.team]}"></span><span class="sbn">${esc(p.me ? 'Ты' : p.nick)}</span><b>${p.score}</b></div>`).join('')}</div>
+      <p class="muted center" style="margin-top:10px">Награды за онлайн-матчи пока не начисляются.</p>
+      <button class="btn block" id="again" style="margin-top:12px">В лобби</button>
+      <a class="btn ghost block" href="#/games" style="display:grid;place-items:center;text-decoration:none;margin-top:10px">Все игры</a>`;
+    el.querySelector('#again').onclick = lobby;
+  };
+
+  // resume a match that is already running (app was closed), otherwise show the lobby
+  lobby();
+  api.rpc('mp_current').then(id => { if (id && alive && view === 'lobby') enter(id); }).catch(() => {});
+  return stop;
+}
+
+Object.assign(__exp, { multi });
+return __exp;
+})();
+
+__m["legal/docs"] = (() => {
+const __exp = {};
+// Legal documents of VELORA. Written from what the project really does (see README / supabase migrations).
+// When ANY text changes materially, bump DOCS_VERSION (YYYY-MM-DD): every player will be asked to accept again.
+const { CONFIG } = __m["config/config"];
+const DOCS_VERSION = '2026-11-08';
+
+const contact = () => CONFIG.LEGAL_CONTACT
+  ? `Связаться с владельцем проекта: ${CONFIG.LEGAL_CONTACT}.`
+  : 'Связаться с владельцем проекта можно через Telegram-бота, в котором открыто это приложение.';
+
+const NOT_ADVICE = 'Этот текст описывает, как проект работает на самом деле. Он не является юридической консультацией и не заявляет соответствия какому-либо конкретному закону или стандарту.';
+
+const DOCS = [
+  {
+    id: 'about', title: 'О проекте VELORA', icon: 'info', summary: 'Что это за игра и в каком она состоянии',
+    sections: () => [
+      { h: 'Что такое VELORA', p: ['VELORA — игровая вселенная в виде Telegram Mini App: сборник коротких игр, мир с территориями, уровни, достижения, магазин косметики и рейтинг.', 'Персонаж Луми, графика и звуки созданы специально для проекта; внешних звуковых файлов приложение не использует — звуки генерируются прямо на устройстве.'] },
+      { h: 'Режимы', ul: ['Для одного игрока: Word Quest, Quiz Arena, Mind Lab, Memory Rush, Reaction X, Mystery Zone, Daily Quest; Party Mode — для нескольких игроков на одном устройстве.', 'Онлайн-мультиплеер: Duel Zone (1 на 1) и Team Arena (2 на 2). В них играют настоящие люди; ботов вместо игроков приложение не подставляет.'] },
+      { h: 'Валюта и магазин', p: ['В игре есть две виртуальные валюты — Verse Coins и Crystals. Они зарабатываются игрой и тратятся в магазине на косметику (рамки, фоны, образы Луми). Реальных денег в приложении нет: купить валюту за деньги или вывести её нельзя, платёжных функций в проекте не реализовано.'] },
+      { h: 'Статус проекта', p: ['VELORA находится в разработке. Возможны ошибки, изменения правил, баланса и функций. Если Telegram-аккаунт или интернет недоступны, приложение работает в локальном демо-режиме: прогресс тогда хранится только на вашем устройстве.'] },
+      { h: 'Контакты', p: [contact()] }
+    ]
+  },
+  {
+    id: 'terms', title: 'Пользовательское соглашение', icon: 'doc', summary: 'Условия использования приложения',
+    sections: () => [
+      { h: '1. Согласие', p: ['Нажимая «Принять и продолжить», вы подтверждаете, что прочитали эти документы и принимаете их условия. Если вы не согласны — не пользуйтесь приложением.', 'Приложение не предназначено для детей младше возраста, с которого вам разрешено пользоваться Telegram в вашей стране.'] },
+      { h: '2. Аккаунт', p: ['Отдельной регистрации нет: вход выполняется через ваш Telegram-аккаунт. Один Telegram-аккаунт — один игровой профиль. Вы отвечаете за действия, совершённые из вашего Telegram-аккаунта.'] },
+      { h: '3. Виртуальные ценности', ul: ['Verse Coins, Crystals, уровни, достижения и предметы не имеют денежной стоимости, не обмениваются на деньги и не передаются другим игрокам.', 'Предметы магазина — только косметика, на силу в играх они не влияют.', 'Мы можем изменить цены, награды и баланс, а также скорректировать или обнулить начисления, полученные с нарушением правил или из-за ошибки.'] },
+      { h: '4. Правила и последствия', p: ['Вы обязуетесь соблюдать документ «Правила и поведение». При нарушении администрация может ограничить функции, скрыть профиль или заблокировать доступ к онлайн-возможностям. Для этого в проекте предусмотрены административные инструменты.'] },
+      { h: '5. Доступность и изменения', p: ['Приложение предоставляется «как есть». Мы не гарантируем бесперебойную работу, сохранность прогресса и отсутствие ошибок, особенно на этапе разработки. Мы можем изменять и прекращать отдельные функции.', 'Документы могут обновляться. Если меняется их смысл, мы повышаем версию документов, и при следующем запуске приложение попросит принять их снова. Продолжая пользоваться приложением после принятия новой версии, вы соглашаетесь с ней.'] },
+      { h: '6. Ответственность', p: ['Приложение — развлечение. Вы пользуетесь им на свой риск в пределах, допускаемых законом. Мы не отвечаем за недоступность Telegram, интернета, GitHub Pages и Supabase, на которых основана работа проекта.'] },
+      { h: '7. Оговорка', p: [NOT_ADVICE, contact()] }
+    ]
+  },
+  {
+    id: 'privacy', title: 'Политика конфиденциальности', icon: 'shield', summary: 'Какие данные и как обрабатываются',
+    sections: () => [
+      { h: 'Какие данные мы получаем от Telegram', p: ['При запуске внутри Telegram приложение получает от Telegram подписанные данные запуска (initData): числовой идентификатор вашего Telegram-аккаунта, имя и, если есть, имя пользователя, а также служебные поля (время запуска, язык интерфейса и т. п.).', 'Сервер проверяет подлинность этой подписи секретным ключом бота. Из этих данных в базе сохраняются только Telegram ID и игровой никнейм — по умолчанию это ваше имя в Telegram (или имя пользователя), его можно изменить в настройках. Фото, телефон, контакты, геолокация и список чатов не запрашиваются и не сохраняются.'] },
+      { h: 'Что хранится на сервере (Supabase)', p: ['Если вы играете онлайн, в базе данных Supabase хранятся:'], ul: ['профиль: Telegram ID, никнейм, роль, опыт и уровень, Verse Coins, Crystals, серия дней, дата последнего визита, надетые предметы, настройки приватности, дата создания;', 'результаты игр: режим, сложность, очки, победа, начисленные награды, время;', 'история начислений и покупок, инвентарь, достижения, получение ежедневных наград;', 'друзья: заявки, дружба, блокировки;', 'жалобы на игроков: кто пожаловался, на кого, текст причины и статус;', 'онлайн-матчи: комната, участники, очки, время;', 'принятие документов: версия и время принятия (по серверному времени).'] },
+      { h: 'Что видят другие игроки', p: ['Другим игрокам могут быть видны ваш никнейм, очки (в рейтинге и онлайн-матче) и уровень (в поиске игроков и списках друзей): в рейтинге, поиске игроков, списке друзей и в онлайн-матче, в котором вы участвуете. Telegram ID другим игрокам приложением не показывается.'] },
+      { h: 'IP-адрес и технические данные', p: ['Как у любого веб-приложения, при открытии Mini App ваше устройство обращается к серверам: страница загружается с GitHub Pages, скрипт Telegram — с telegram.org, игровые запросы идут в Supabase. Эти сервисы по технической необходимости получают IP-адрес и сведения об устройстве и браузере (например, user-agent) и могут вести собственные журналы по своим правилам. Сам проект не создаёт базу IP-адресов, не записывает их в игровую базу данных и не сопоставляет их с профилями.', 'Telegram, в свою очередь, обрабатывает ваши данные по собственной политике конфиденциальности.'] },
+      { h: 'Что хранится на вашем устройстве', p: ['Приложение сохраняет в локальном хранилище браузера (localStorage, ключ velora.v1): никнейм, настройки звука и темы, локальный игровой прогресс демо-режима и отметку о принятии документов. Эти данные остаются на устройстве; их можно удалить, очистив данные приложения/браузера. Файлы cookie проект не использует.'] },
+      { h: 'Чего в проекте нет', ul: ['рекламы и рекламных сетей;', 'сторонней аналитики и трекеров поведения;', 'передачи данных третьим лицам в маркетинговых целях;', 'платежей и сбора платёжных данных.'] },
+      { h: 'Хранение и удаление', p: ['Серверные данные хранятся, пока работает проект; автоматического удаления по сроку нет, и мы не обещаем конкретных сроков хранения. Кнопки «Удалить аккаунт» в приложении сейчас нет. Вы можете обратиться к владельцу проекта с просьбой удалить ваши данные — решение и порядок зависят от владельца проекта и возможностей инфраструктуры. Локальные данные вы удаляете сами.', contact()] },
+      { h: 'Оговорка', p: [NOT_ADVICE] }
+    ]
+  },
+  {
+    id: 'rules', title: 'Правила и поведение', icon: 'rules', summary: 'Как играть честно и уважительно',
+    sections: () => [
+      { h: 'Уважение к другим', ul: ['Не оскорбляйте игроков, не травите и не угрожайте.', 'Никнейм не должен содержать оскорблений, чужих имён с целью выдать себя за другого человека, рекламы и ссылок.', 'Не публикуйте и не отправляйте чужие личные данные.'] },
+      { h: 'Честная игра', ul: ['Не используйте боты, скрипты, изменённый клиент и любые способы накрутки очков или валюты.', 'Не пользуйтесь ошибками приложения в свою выгоду — сообщайте о них владельцу проекта.', 'Не создавайте дополнительные аккаунты, чтобы обходить ограничения или накручивать результаты.', 'Не покидайте онлайн-матчи намеренно, чтобы портить игру другим.'] },
+      { h: 'Безопасность проекта', ul: ['Не пытайтесь получить доступ к чужим данным, нарушить работу сервера или обойти защиту.', 'Не распространяйте вредоносные ссылки и файлы.'] },
+      { h: 'Жалобы и санкции', p: ['На игрока можно пожаловаться, а нежелательного игрока — заблокировать. Администрация может рассматривать жалобы и применять санкции: скрыть результат, ограничить онлайн-функции или заблокировать аккаунт. Решения принимаются владельцем проекта и модераторами; мы не обещаем ответ в определённый срок.'] }
+    ]
+  },
+  {
+    id: 'security', title: 'Безопасность аккаунта', icon: 'lock', summary: 'Как защищён вход и что делать вам',
+    sections: () => [
+      { h: 'Как работает вход', p: ['У VELORA нет паролей. Вход выполняется через Telegram: сервер проверяет криптографическую подпись данных запуска с помощью секретного ключа бота (он хранится только на сервере и не попадает в приложение). После проверки сервер выдаёт временный токен доступа на 1 час; он хранится в памяти открытого приложения и не записывается на устройство.', 'Доступ к вашим данным в базе ограничен правилами безопасности на уровне строк: игрок может читать свои данные, а изменить сам — только никнейм и настройки приватности. Баланс, опыт, покупки и результаты считает сервер, а не приложение.', 'Страницы приложения передаются по защищённому соединению HTTPS.'] },
+      { h: 'Что мы никогда не просим', ul: ['пароль или код входа от Telegram;', 'коды из SMS, секретные фразы, данные банковских карт;', 'ваш токен или данные запуска приложения.', 'Если кто-то от имени VELORA просит такое — это мошенничество.'] },
+      { h: 'Что стоит сделать вам', ul: ['Включите двухэтапную проверку (облачный пароль) в настройках Telegram.', 'Не передавайте свой Telegram-аккаунт и устройство посторонним.', 'Открывайте игру только из бота, которому доверяете, а не по ссылкам от незнакомцев.', 'Если подозреваете взлом — завершите чужие сеансы в Telegram («Устройства») и сообщите владельцу проекта.'] },
+      { h: 'Ограничения', p: ['Ни один сервис не может обещать абсолютной защиты. Часть проверок в играх на одного игрока выполняется в приложении, поэтому мы ограничиваем награды сверху и ограничиваем частоту запросов, а за онлайн-матчи награды пока не начисляем.', 'Если вы нашли уязвимость, сообщите о ней владельцу проекта и не используйте её. ' + contact()] }
+    ]
+  }
+];
+const docById = id => DOCS.find(d => d.id === id);
+
+Object.assign(__exp, { DOCS_VERSION, DOCS, docById });
+return __exp;
+})();
+
+__m["services/terms"] = (() => {
+const __exp = {};
+// Acceptance of legal documents: server is the source of truth (terms_acceptances); localStorage is only a helper.
+// A failure to reach the server never blocks the app: the local mark is kept and synced on the next successful start.
+const S = __m["services/store"];
+const api = __m["services/api"];
+const { DOCS_VERSION } = __m["legal/docs"];
+const accepted = () => S.terms()?.v === DOCS_VERSION;
+
+async function accept() {
+  S.setTerms({ v: DOCS_VERSION, t: Date.now(), server: false });
+  if (api.online()) await pushToServer();
+}
+async function pushToServer() {
+  try { await api.rpc('accept_terms', { p_version: DOCS_VERSION }); S.setTerms({ ...S.terms(), server: true }); return true; }
+  catch (e) { console.warn('terms sync failed', e.message); return false; }
+}
+// Called after the online login. Returns true if the local state changed to "accepted" (so an open welcome window can close).
+async function syncTerms() {
+  try {
+    const r = await api.rpc('my_terms');
+    if (r?.version === DOCS_VERSION) {
+      const was = accepted();
+      S.setTerms({ v: DOCS_VERSION, t: Date.parse(r.accepted_at) || Date.now(), server: true });
+      return !was;
+    }
+    if (accepted()) await pushToServer();   // accepted in the app earlier (e.g. before login) → record on the server now
+  } catch (e) { console.warn('terms check failed', e.message); }
+  return false;
+}
+
+Object.assign(__exp, { accepted, accept, syncTerms });
+return __exp;
+})();
+
+__m["pages/welcome"] = (() => {
+const __exp = {};
+// Welcome & Legal window (first launch / new document version) and the "Документы" pages.
+const { esc, icon } = __m["components/ui"];
+const { logo, lumi } = __m["components/lumi"];
+const { DOCS, DOCS_VERSION, docById } = __m["legal/docs"];
+const terms = __m["services/terms"];
+const S = __m["services/store"];
+const { sfx } = __m["services/audio"];
+const { haptic } = __m["services/telegram"];
+const fmtDate = v => { const [y, m, d] = v.split('-'); return `${d}.${m}.${y}`; };
+
+// Text of one document as HTML (all text is static and escaped anyway).
+function docHtml(doc) {
+  return doc.sections().map(s => `<section class="ld"><h3>${esc(s.h)}</h3>${(s.p || []).map(t => `<p>${esc(t)}</p>`).join('')}${s.ul ? `<ul>${s.ul.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}</section>`).join('');
+}
+const safeDoc = doc => { try { return docHtml(doc); } catch (e) { console.warn('doc render', e); return '<p class="muted">Не удалось показать документ. Вы можете продолжить пользоваться приложением и открыть его позже в Настройках → Документы.</p>'; } };
+
+// ---------- "Документы" in settings: #/docs and #/docs/<id> ----------
+function docsPage(el, id) {
+  const doc = id && docById(id);
+  if (doc) {
+    el.innerHTML = `<h1>${esc(doc.title)}</h1><p class="muted">Версия документов от ${fmtDate(DOCS_VERSION)}</p><div class="card legal">${safeDoc(doc)}</div>`;
+    return;
+  }
+  const t = S.terms();
+  el.innerHTML = `<h1>Документы</h1><p class="muted">Версия от ${fmtDate(DOCS_VERSION)}</p>
+    ${DOCS.map(d => `<a class="card doccard" href="#/docs/${d.id}"><span class="di">${icon(d.icon)}</span><div style="flex:1"><b>${esc(d.title)}</b><br><span class="muted">${esc(d.summary)}</span></div>${icon('next')}</a>`).join('')}
+    <p class="muted center" style="margin-top:14px">${t && t.v ? `Принято: версия ${fmtDate(t.v)}, ${new Date(t.t).toLocaleDateString('ru-RU')}${t.server ? ' · записано на сервере' : ' · сохранено на этом устройстве'}` : 'Условия ещё не приняты.'}</p>`;
+}
+
+// ---------- welcome overlay ----------
+let overlay = null;
+const closeWelcome = () => { overlay?.remove(); overlay = null; document.documentElement.classList.remove('welcome-open'); };
+
+function showWelcome(onDone) {
+  if (overlay) return;
+  try { build(onDone); } catch (e) { console.warn('welcome failed, continuing without it', e); closeWelcome(); }   // never block the app
+}
+
+function build(onDone) {
+  let checked = false, opened = new Set(), busy = false;
+  overlay = document.createElement('div'); overlay.className = 'welcome'; overlay.setAttribute('role', 'dialog'); overlay.setAttribute('aria-modal', 'true'); overlay.setAttribute('aria-label', 'Добро пожаловать в VELORA');
+  document.body.appendChild(overlay); document.documentElement.classList.add('welcome-open');
+
+  const main = () => {
+    overlay.innerHTML = `<div class="w-glow a"></div><div class="w-glow b"></div>
+      <div class="w-scroll"><div class="w-in">
+        <div class="w-head"><div class="w-logo">${logo(34)}</div><div class="w-lumi">${lumi('wave', 84)}</div>
+          <h1>Добро пожаловать!</h1><p class="muted">Перед началом — коротко о главном. Каждый документ открывается отдельно.</p></div>
+        ${DOCS.map((d, i) => `<button class="card doccard" data-d="${d.id}" style="animation-delay:${i * 70}ms"><span class="di">${icon(d.icon)}</span>
+          <div style="flex:1;text-align:left"><b>${esc(d.title)}</b><br><span class="muted">${esc(d.summary)}</span></div>${opened.has(d.id) ? `<span class="w-ok">${icon('shield')}</span>` : icon('next')}</button>`).join('')}
+        <p class="muted center" style="font-size:13px;margin:8px 0 4px">Версия документов от ${fmtDate(DOCS_VERSION)}</p>
+      </div></div>
+      <div class="w-foot"><label class="w-check"><input type="checkbox" id="wc" ${checked ? 'checked' : ''}><span class="box">${icon('shield')}</span><span>Я ознакомился с документами и принимаю условия</span></label>
+        <button class="btn block" id="wgo" ${checked ? '' : 'disabled'}>ПРИНЯТЬ И ПРОДОЛЖИТЬ</button></div>`;
+    overlay.querySelectorAll('[data-d]').forEach(b => b.onclick = () => doc(b.dataset.d));
+    const cb = overlay.querySelector('#wc'), go = overlay.querySelector('#wgo');
+    cb.onchange = () => { checked = cb.checked; go.disabled = !checked; sfx('tap'); haptic('light'); };
+    go.onclick = async () => {
+      if (!checked || busy) return; busy = true; go.disabled = true; go.textContent = 'Сохраняем…';
+      try { await Promise.race([terms.accept(), new Promise(r => setTimeout(r, 4000))]); } catch (e) { console.warn(e); }  // network trouble must not block the player
+      sfx('reward'); haptic('success'); busy = false; close();
+    };
+  };
+  const doc = id => {
+    const d = docById(id); opened.add(id);
+    overlay.innerHTML = `<div class="w-scroll"><div class="w-in"><button class="btn ghost sm" id="wb">${icon('back')} Назад</button>
+      <h1 style="margin-top:12px">${esc(d.title)}</h1><p class="muted">Версия от ${fmtDate(DOCS_VERSION)}</p><div class="card legal">${safeDoc(d)}</div></div></div>
+      <div class="w-foot"><button class="btn block" id="wb2">Понятно, назад к списку</button></div>`;
+    overlay.querySelector('.w-scroll').scrollTop = 0;
+    overlay.querySelector('#wb').onclick = overlay.querySelector('#wb2').onclick = main;
+  };
+  const close = () => { overlay.classList.add('out'); const o = overlay; setTimeout(() => { if (o === overlay) closeWelcome(); else o.remove(); }, 260); onDone?.(); };
+  main();
+}
+
+Object.assign(__exp, { docHtml, docsPage, closeWelcome, showWelcome });
+return __exp;
+})();
+
+__m["pages/admin"] = (() => {
+const __exp = {};
+// OWNER CONTROL CENTER. UI only: every request is re-verified on the server (Edge Function admin-api, Telegram initData + OWNER id).
+const { CONFIG } = __m["config/config"];
+const { initDataRaw } = __m["services/telegram"];
+const { icon, esc, toast } = __m["components/ui"];
+let owner = false;
+async function call(action, args = {}) {
+  const r = await fetch(CONFIG.SUPABASE_URL.replace(/\/$/, '') + '/functions/v1/admin-api', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', apikey: CONFIG.SUPABASE_ANON_KEY }, body: JSON.stringify({ initData: initDataRaw(), action, args }) });
+  const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || 'http_' + r.status); return j.data;
+}
+const checkOwner = async () => { owner = false; if (initDataRaw()) { try { await call('whoami'); owner = true; } catch {} } return owner; };
+const isOwner = () => owner;
+const sheet = html => { const m = document.createElement('div'); m.className = 'modal-bg'; m.innerHTML = `<div class="sheet">${html}</div>`; document.body.appendChild(m); const close = () => m.remove(); m.onclick = e => { if (e.target === m) close(); }; return { m, close }; };
+const num = v => v == null ? '—' : Number(v).toLocaleString('ru-RU');
+const err = e => toast(String(e.message || e).slice(0, 80));
+
+function admin(el) {
+  let tab = 'dash', timer;
+  el.innerHTML = `<div class="top"><div><h1 style="font-size:20px">VELORA CONTROL CENTER</h1><span class="muted" style="font-size:12px">OWNER ADMINISTRATION</span></div><span class="badge">OWNER</span></div>
+    <div class="row between" style="margin-bottom:12px"><span class="chip"><i style="width:8px;height:8px;border-radius:50%;background:var(--ok)"></i> онлайн</span><span class="muted" id="clk" style="font-size:13px"></span><button class="btn ghost sm" id="out">Выйти</button></div>
+    <div class="seg" id="tabs" style="overflow-x:auto"><button data-t="dash" class="on">Дашборд</button><button data-t="pl">Игроки</button><button data-t="ec">Экономика</button><button data-t="se">Сезоны</button><button data-t="sh">Магазин</button><button data-t="rp">Жалобы</button><button data-t="lg">Журнал</button></div><div id="body" style="margin-top:14px"></div>`;
+  const body = el.querySelector('#body'), clk = el.querySelector('#clk');
+  const tick = () => clk.textContent = new Date().toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'medium' }); tick(); timer = setInterval(tick, 1000);
+  el.querySelector('#out').onclick = () => { location.hash = '#/profile'; };
+  el.querySelectorAll('#tabs button').forEach(b => b.onclick = () => { tab = b.dataset.t; el.querySelectorAll('#tabs button').forEach(x => x.classList.toggle('on', x === b)); show(); });
+  const show = () => ({ dash, pl: players, ec: econ, se: seasons, sh: shop, rp: reports, lg: logs })[tab]();
+
+  async function dash() {
+    body.innerHTML = '<p class="muted center">Загрузка…</p>';
+    try {
+      const d = await call('dashboard'), days = d.reg_by_day || [], mx = Math.max(1, ...days.map(x => x.n));
+      const card = (t, v) => `<div class="card center"><div class="muted" style="font-size:12px">${t}</div><h1>${num(v)}</h1></div>`;
+      body.innerHTML = `<div class="grid2">${card('Игроков', d.players)}${card('Новых за 24ч', d.new_24h)}${card('Активных сегодня', d.active_today)}${card('Заблокировано', d.banned)}${card('Матчей', d.matches)}${card('Завершено матчей', d.matches_finished)}${card('Игр сыграно', d.games_played)}${card('Покупок', d.purchases)}${card('Жалоб', d.reports)}${card('Достижений', d.achievements_unlocked)}</div>
+      <h2>Регистрации, 14 дней</h2><div class="card"><svg viewBox="0 0 300 100" width="100%">${days.map((x, i) => { const h = x.n / mx * 80, w = 300 / Math.max(days.length, 1); return `<rect x="${i * w + 3}" y="${90 - h}" width="${w - 6}" height="${h}" rx="4" fill="var(--p)"><title>${esc(x.d)}: ${x.n}</title></rect>`; }).join('')}</svg></div>
+      <h2>Популярность режимов</h2><div class="card">${(d.modes || []).map(m => `<div class="row between" style="margin:4px 0"><span>${esc(m.mode)}</span><b>${num(m.n)}</b></div>`).join('') || '<span class="muted">Нет данных</span>'}</div>
+      <p class="muted" style="font-size:12px;margin-top:10px">«—» значит, что в базе нет такой таблицы или колонки. Матчи, покупки, гильдии, сезоны появятся после подключения их таблиц.</p>`;
+    } catch (e) { body.innerHTML = `<p class="muted center">Ошибка: ${esc(e.message)}</p>`; }
+  }
+  function players() {
+    body.innerHTML = `<input type="text" id="q" placeholder="Ник, Telegram ID или UUID"><button class="btn block" id="go" style="margin-top:10px">Найти</button><div id="res"></div>`;
+    const res = body.querySelector('#res');
+    const find = async () => { try { const rows = await call('players', { q: body.querySelector('#q').value.trim() });
+      res.innerHTML = rows.map(p => `<div class="card row between" data-id="${esc(p.id)}" style="cursor:pointer"><div><b>${esc(p.nickname)}</b> ${p.is_banned ? '<span class="badge" style="color:var(--bad)">BAN</span>' : ''}<div class="muted" style="font-size:12px">TG ${esc(p.tg_id)} · XP ${num(p.xp)} · 🪙${num(p.coins)} 💎${num(p.crystals)}</div></div></div>`).join('') || '<p class="muted center">Не найдено</p>';
+      res.querySelectorAll('[data-id]').forEach(c => c.onclick = () => detail(c.dataset.id)); } catch (e) { err(e); } };
+    body.querySelector('#go').onclick = find;
+  }
+  async function detail(id) {
+    try {
+      const d = await call('player', { id }), p = d.profile;
+      const s = sheet(`<h3>${esc(p.nickname)}</h3><p class="muted" style="font-size:13px">TG ${esc(p.tg_id)} · XP ${num(p.xp)} · 🪙${num(p.coins)} · 💎${num(p.crystals)} · серия ${num(p.streak)}<br>Предметов: ${d.inventory ? d.inventory.length : '—'} · Достижений: ${d.achievements ? d.achievements.length : '—'}<br>Регистрация: ${esc(p.created_at || '—')}${p.is_banned ? '<br><b style="color:var(--bad)">Заблокирован: ' + esc(p.banned_reason || '') + '</b>' : ''}</p>
+        <button class="btn block" id="bal">Изменить баланс</button><button class="btn ghost block" id="ban" style="margin-top:10px">${p.is_banned ? 'Разблокировать' : 'Заблокировать'}</button>
+        <div class="grid2" style="margin-top:10px"><button class="btn ghost sm" id="xp">± XP</button><button class="btn ghost sm" id="itm">Предмет</button><button class="btn ghost sm" id="wrn">Предупр. (${num(p.warnings)})</button></div>`);
+      s.m.querySelector('#bal').onclick = () => { s.close(); balance(p); };
+      s.m.querySelector('#xp').onclick = () => { s.close(); confirmAct('± XP для ' + esc(p.nickname), `<input type="text" id="xa" inputmode="numeric" placeholder="Сумма XP (минус = списать)" style="margin-top:10px">`, async r => { await call('xp', { id: p.id, amount: document.querySelector('#xa').value, reason: r }); toast('XP изменён'); }); };
+      s.m.querySelector('#itm').onclick = () => { s.close(); confirmAct('Предмет: ' + esc(p.nickname), `<input type="text" id="ii" placeholder="ID предмета (см. вкладку Магазин)" style="margin-top:10px"><select id="ig" class="opt"><option value="1">Выдать</option><option value="0">Снять</option></select>`, async r => { await call('grant', { id: p.id, item: document.querySelector('#ii').value.trim(), give: document.querySelector('#ig').value === '1', reason: r }); toast('Готово'); }); };
+      s.m.querySelector('#wrn').onclick = () => { s.close(); confirmAct('Выдать предупреждение?', '', async r => { await call('warn', { id: p.id, reason: r }); toast('Предупреждение выдано'); }); };
+      s.m.querySelector('#ban').onclick = () => { s.close(); confirmAct(p.is_banned ? 'Разблокировать игрока?' : 'Заблокировать игрока?', '', async reason => { await call('ban', { id: p.id, ban: !p.is_banned, reason }); toast('Готово'); }); };
+    } catch (e) { err(e); }
+  }
+  function balance(p) {
+    confirmAct('Изменить баланс ' + esc(p.nickname), `<select id="cur" class="opt"><option value="coins">Verse Coins</option><option value="crystals">Crystals</option></select><input type="text" id="amt" inputmode="numeric" placeholder="Сумма (минус = списать)" style="margin-top:10px">`,
+      async reason => { const m = document.querySelector('#amt'); await call('balance', { id: p.id, currency: document.querySelector('#cur').value, amount: m.value, reason }); toast('Баланс изменён'); }, true);
+  }
+  function confirmAct(title, extra, run) {
+    const s = sheet(`<h3>${title}</h3>${extra}<input type="text" id="why" placeholder="Причина (обязательно)" style="margin-top:10px"><div class="row" style="margin-top:12px"><button class="btn ghost block" id="no">Отмена</button><button class="btn block" id="yes">Подтвердить</button></div>`);
+    s.m.querySelector('#no').onclick = s.close;
+    s.m.querySelector('#yes').onclick = async () => { const why = s.m.querySelector('#why').value.trim(); if (why.length < 3) return toast('Укажи причину');
+      try { await run(why); s.close(); } catch (e) { err(e); } };
+  }
+
+  const rowH = (t, sub, right = '') => `<div class="card row between"><div style="min-width:0"><b>${t}</b><div class="muted" style="font-size:12px;overflow-wrap:anywhere">${sub}</div></div>${right}</div>`;
+  const inpS = 'width:100%;min-height:48px;margin-top:10px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:0 14px;font:16px inherit;font-family:inherit';
+  const loc = iso => { const d = new Date(iso); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16); };
+  const fail = e => { body.innerHTML = `<p class="muted center">Ошибка: ${esc(e.message)}</p>`; };
+  async function econ() {
+    body.innerHTML = `<input type="text" id="q" placeholder="Ник, причина (game, season_pass…) или UUID"><button class="btn block" id="go" style="margin-top:10px">Найти</button><div id="res"></div>`;
+    const go = async () => { try { const rows = await call('tx', { q: body.querySelector('#q').value.trim() });
+      body.querySelector('#res').innerHTML = rows.map(t => rowH(`${t.amount > 0 ? '+' : ''}${num(t.amount)} ${t.currency === 'coins' ? '🪙' : '💎'}`, `${esc(t.nickname || t.user_id)} · ${esc(t.reason)} · ${esc(t.ref || '')} · ${esc(new Date(t.created_at).toLocaleString('ru-RU'))}`)).join('') || '<p class="muted center">Пусто</p>'; } catch (e) { err(e); } };
+    body.querySelector('#go').onclick = go; go();
+  }
+  async function seasons() {
+    body.innerHTML = '<p class="muted center">Загрузка…</p>';
+    try {
+      const list = await call('seasons');
+      body.innerHTML = `<button class="btn block" id="new">+ Новый сезон (копия наград)</button>` + list.map(x => { const s = x.season; return `<div class="card"><div class="row between"><b>${esc(s.name)}</b><span class="badge">${esc(s.status)}</span></div>
+        <div class="muted" style="font-size:12px">${esc(new Date(s.starts_at).toLocaleString('ru-RU'))} → ${esc(new Date(s.ends_at).toLocaleString('ru-RU'))}<br>Игроков: ${num(x.players)} · Наград получено: ${num(x.claims)} · XP/уровень: ${s.xp_per_level}</div>
+        <div class="muted" style="font-size:12px;margin-top:6px">Топ: ${x.top.map((t, i) => `${i + 1}. ${esc(t.nickname)} (${num(t.xp)})`).join(' · ') || '—'}</div>
+        <div class="grid2" style="margin-top:10px"><button class="btn ghost sm" data-ed="${s.id}">Изменить</button><button class="btn ghost sm" data-rw="${s.id}">Награды</button>
+        ${s.status !== 'active' ? `<button class="btn sm" data-st="${s.id}|active">Активировать</button>` : `<button class="btn sm" data-st="${s.id}|ended">Завершить</button>`}<button class="btn ghost sm" data-st="${s.id}|archived">В архив</button></div></div>`; }).join('');
+      const by = id => list.find(x => x.season.id === id);
+      body.querySelector('#new').onclick = () => confirmAct('Новый сезон', `<input type="text" id="sn" placeholder="Название" style="margin-top:10px"><input type="text" id="sd" placeholder="Описание" style="margin-top:10px"><input type="text" id="sdays" inputmode="numeric" placeholder="Дней (например 42)" style="margin-top:10px">`,
+        async r => { await call('season_create', { name: document.querySelector('#sn').value, desc: document.querySelector('#sd').value, days: document.querySelector('#sdays').value, reason: r }); toast('Сезон создан (черновик)'); seasons(); });
+      body.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { const [id, st] = b.dataset.st.split('|'); confirmAct(st === 'active' ? 'Активировать сезон?' : st === 'ended' ? 'Завершить сезон? Опыт перестанет начисляться.' : 'Перенести в архив?', '', async r => { await call('season_status', { id, status: st, reason: r }); toast('Готово'); seasons(); }); });
+      body.querySelectorAll('[data-ed]').forEach(b => b.onclick = () => { const s = by(b.dataset.ed).season;
+        confirmAct('Изменить сезон', `<input type="text" id="en" value="${esc(s.name)}" style="margin-top:10px"><input type="text" id="ed" value="${esc(s.description)}" style="margin-top:10px"><input type="datetime-local" id="es" value="${loc(s.starts_at)}" style="${inpS}"><input type="datetime-local" id="ee" value="${loc(s.ends_at)}" style="${inpS}">`,
+          async r => { await call('season_set', { id: s.id, name: document.querySelector('#en').value, desc: document.querySelector('#ed').value, starts: new Date(document.querySelector('#es').value).toISOString(), ends: new Date(document.querySelector('#ee').value).toISOString(), reason: r }); toast('Сохранено'); seasons(); }); });
+      body.querySelectorAll('[data-rw]').forEach(b => b.onclick = () => { const x = by(b.dataset.rw);
+        const m = sheet(`<h3>Награды: ${esc(x.season.name)}</h3><div style="max-height:60vh;overflow:auto">${x.rewards.map(r => `<div class="row between" style="margin:8px 0"><span>${r.level}. ${esc(r.name)} ${r.kind !== 'item' ? '· ' + r.amount : ''}<br><small class="muted">получено: ${num(r.claims)}${r.enabled ? '' : ' · выкл'}</small></span><button class="btn ghost sm" data-r="${r.id}">Изм.</button></div>`).join('')}</div>`);
+        m.m.querySelectorAll('[data-r]').forEach(c => c.onclick = () => { const r = x.rewards.find(q => String(q.id) === c.dataset.r); m.close();
+          confirmAct('Награда уровня ' + r.level, `${r.kind === 'item' ? '<p class="muted">Предмет: ' + esc(r.item_id) + '</p>' : `<input type="text" id="ra" inputmode="numeric" value="${r.amount}" style="margin-top:10px">`}<select id="re" class="opt"><option value="1" ${r.enabled ? 'selected' : ''}>Включена</option><option value="0" ${r.enabled ? '' : 'selected'}>Отключена</option></select>`,
+            async why => { await call('reward_set', { id: r.id, amount: r.kind === 'item' ? 0 : document.querySelector('#ra').value, enabled: document.querySelector('#re').value === '1', reason: why }); toast('Сохранено'); seasons(); }); }); });
+    } catch (e) { fail(e); }
+  }
+  async function shop() {
+    body.innerHTML = '<p class="muted center">Загрузка…</p>';
+    try { const rows = await call('shop');
+      body.innerHTML = rows.map(i => rowH(esc(i.name) + (i.active ? '' : ' <span class="badge">выкл</span>'), `${esc(i.id)} · ${esc(i.kind)} · ${num(i.price)} ${i.currency === 'coins' ? '🪙' : '💎'} · владельцев ${num(i.owners)} · покупок ${num(i.purchases)}`, `<button class="btn ghost sm" data-i="${esc(i.id)}">Изм.</button>`)).join('');
+      body.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { const i = rows.find(q => q.id === b.dataset.i);
+        confirmAct('Предмет ' + esc(i.name), `<input type="text" id="pp" inputmode="numeric" value="${i.price}" style="margin-top:10px"><select id="pa" class="opt"><option value="1" ${i.active ? 'selected' : ''}>Продаётся</option><option value="0" ${i.active ? '' : 'selected'}>Скрыт</option></select>`,
+          async r => { await call('shop_set', { id: i.id, price: document.querySelector('#pp').value, active: document.querySelector('#pa').value === '1', reason: r }); toast('Сохранено'); shop(); }); });
+    } catch (e) { fail(e); }
+  }
+  async function reports() {
+    body.innerHTML = '<p class="muted center">Загрузка…</p>';
+    try { const rows = await call('reports');
+      body.innerHTML = rows.map(r => rowH(`${esc(r.reporter || '?')} → ${esc(r.target || '?')} <span class="badge">${esc(r.status)}</span>`, `${esc(r.reason)} · ${esc(new Date(r.created_at).toLocaleString('ru-RU'))}`, `<button class="btn ghost sm" data-p="${r.id}">Статус</button>`)).join('') || '<p class="muted center">Жалоб нет</p>';
+      body.querySelectorAll('[data-p]').forEach(b => b.onclick = () => confirmAct('Статус жалобы', `<select id="rs" class="opt"><option value="resolved">Рассмотрена</option><option value="dismissed">Отклонена</option><option value="open">Открыта</option></select>`,
+        async r => { await call('report_status', { id: +b.dataset.p, status: document.querySelector('#rs').value, reason: r }); toast('Готово'); reports(); }));
+    } catch (e) { fail(e); }
+  }
+  async function logs() {
+    body.innerHTML = '<p class="muted center">Загрузка…</p>';
+    try { const rows = await call('logs'); body.innerHTML = rows.map(l => `<div class="card"><b>${esc(l.action)}</b> <span class="muted" style="font-size:12px">${esc(new Date(l.created_at).toLocaleString('ru-RU'))}</span><div class="muted" style="font-size:12px">цель: ${esc(l.target_profile || '—')} · ${esc(JSON.stringify(l.details))}<br>причина: ${esc(l.reason || '—')} · ${esc(l.result)}</div></div>`).join('') || '<p class="muted center">Журнал пуст</p>'; }
+    catch (e) { body.innerHTML = `<p class="muted center">Ошибка: ${esc(e.message)}</p>`; }
+  }
+  show();
+  return () => clearInterval(timer);
+}
+Object.assign(__exp, { admin, checkOwner, isOwner });
+return __exp;
+})();
+
+__m["pages/season"] = (() => {
+const __exp = {};
+// SEASON PASS. Прогресс, награды и их выдача полностью на сервере (RPC season_current / season_claim).
+const { icon, esc, toast } = __m["components/ui"];
+const api = __m["services/api"];
+const { confetti } = __m["components/fx"];
+const { sfx } = __m["services/audio"];
+const fmtLeft = ms => { if (ms <= 0) return 'сезон завершён'; const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4); return d ? `${d} д ${h} ч` : `${h} ч ${m} мин`; };
+const rtext = r => r.kind === 'coins' ? `${r.amount} монет` : r.kind === 'crystals' ? `${r.amount} кристаллов` : r.name;
+function season(el) {
+  if (!api.online()) { el.innerHTML = '<h1>Сезон</h1><div class="card center"><p class="muted">Сезонный пропуск считается на сервере и доступен внутри Telegram.</p></div>'; return; }
+  const load = async () => {
+    try { draw(await api.rpc('season_current')); }
+    catch (e) { el.innerHTML = `<h1>Сезон</h1><p class="muted center">${esc(api.friendly(e))}</p>`; }
+  };
+  const draw = d => {
+    if (!d.season) { el.innerHTML = '<h1>Сезон</h1><div class="card center"><p class="muted">Сейчас нет активного сезона.</p></div>'; return; }
+    const s = d.season, off = Date.parse(d.server_now) - Date.now(), left = Date.parse(s.ends_at) - (Date.now() + off), ended = s.status !== 'active';
+    const into = d.level >= s.max_level ? 100 : Math.round(d.xp % s.xp_per_level / s.xp_per_level * 100);
+    el.innerHTML = `<div class="card hero"><h1 style="font-size:20px">${esc(s.name)}</h1><p class="muted" style="font-size:13px">${esc(s.description)}</p>
+      <div class="row between"><span class="chip">Ур. ${d.level} / ${s.max_level}</span><span class="chip">${ended ? 'Сезон завершён' : 'Осталось ' + fmtLeft(left)}</span></div>
+      <div class="bar" style="margin-top:12px"><i style="width:${into}%"></i></div>
+      <p class="muted" style="font-size:12px;margin-top:6px">${d.level >= s.max_level ? 'Максимальный уровень' : `${d.xp % s.xp_per_level} / ${s.xp_per_level} XP до уровня ${d.level + 1}`}${ended ? ' · опыт больше не начисляется' : ''}</p></div>
+      <h2>Награды</h2>${d.rewards.map(r => { const open = d.level >= r.level;
+        return `<div class="card row between" style="${r.claimed ? 'opacity:.6' : ''}"><div class="row"><span class="badge">${r.level}</span><div><b>${esc(rtext(r))}</b><div class="muted" style="font-size:12px">${r.kind === 'item' ? 'Предмет' : r.kind === 'coins' ? 'Verse Coins' : 'Crystals'}</div></div></div>
+        ${r.claimed ? '<span class="chip">Получено ✓</span>' : open ? `<button class="btn sm" data-r="${r.id}">Забрать</button>` : `<span class="muted" style="font-size:13px">Ур. ${r.level}</span>`}</div>`; }).join('')}`;
+    el.querySelectorAll('[data-r]').forEach(b => b.onclick = async () => { b.disabled = true;
+      try { await api.rpc('season_claim', { p_reward: +b.dataset.r }); await api.syncAll(); sfx('reward'); confetti(document.body, 40); toast('Награда получена!'); load(); }
+      catch (e) { toast(api.friendly(e)); load(); } });
+  };
+  load();
+}
+Object.assign(__exp, { season });
+return __exp;
+})();
+
+__m["app/main"] = (() => {
+const __exp = {};
+const { initTelegram, tgUser, tgColorScheme, setBack, haptic } = __m["services/telegram"];
+const S = __m["services/store"];
+const { startMusic, sfx } = __m["services/audio"];
+const { icon, $, $$ } = __m["components/ui"];
+const { home } = __m["pages/home"];
+const { shop, achievements, world } = __m["pages/extra"];
+const { games, play, profile, settings } = __m["pages/pages"];
+const { friends, rating } = __m["pages/social"];
+const { multi } = __m["pages/multi"];
+const adminMod = __m["pages/admin"];
+const { season } = __m["pages/season"];
+const { docsPage, showWelcome, closeWelcome } = __m["pages/welcome"];
+const terms = __m["services/terms"];
+const api = __m["services/api"];
+initTelegram();
+const u = tgUser();
+if (u && S.state().nick === 'Игрок') S.setNick(u.name);
+S.touchVisit();
+
+const view = $('#view'), nav = $('#nav');
+const TABS = [['home', 'Главная', 'home'], ['games', 'Игры', 'game'], ['friends', 'Друзья', 'users'], ['rating', 'Рейтинг', 'trophy'], ['profile', 'Профиль', 'user']];
+nav.innerHTML = TABS.map(([r, t, i]) => `<a href="#/${r}" data-r="${r}">${icon(i)}<span>${t}</span></a>`).join('');
+
+function applyTheme() {
+  let t = S.state().settings.theme;
+  document.documentElement.dataset.theme = t;
+  document.querySelector('meta[name=theme-color]').content = t === 'light' ? '#F2F3FF' : '#080B18';
+}
+let firstRun = true; try { firstRun = !localStorage.getItem('velora.v1'); } catch {}
+if (firstRun && tgColorScheme() === 'light') S.setSetting('theme', 'light');
+applyTheme();
+
+let cleanup = null;
+function route() {
+  cleanup?.(); cleanup = null;
+  const [, r = 'home', arg] = location.hash.split('/');
+  const inGame = r === 'play' || r === 'mp';
+  nav.classList.toggle('hidden', inGame); view.classList.toggle('nonav', inGame);
+  $$('#nav a').forEach(a => a.classList.toggle('on', a.dataset.r === r));
+  view.style.animation = 'none'; void view.offsetWidth; view.style.animation = '';
+  const main = ['home', 'games', 'friends', 'rating', 'profile'].includes(r);
+  setBack(main ? null : () => history.back());
+  const showBack = !main && !tgUser();
+  switch (r) {
+    case 'games': games(view); break;
+    case 'play': cleanup = play(view, arg); break;
+    case 'mp': cleanup = multi(view, arg); break;
+    case 'docs': docsPage(view, arg); break;
+    case 'season': season(view); break;
+    case 'admin': if (adminMod.isOwner()) cleanup = adminMod.admin(view); else location.hash = '#/home'; break;
+    case 'friends': friends(view); break;
+    case 'rating': rating(view); break;
+    case 'profile': profile(view); break;
+    case 'shop': shop(view); break;
+    case 'inventory': shop(view, 'inv'); break;
+    case 'achievements': achievements(view); break;
+    case 'world': world(view); break;
+    case 'settings': settings(view, applyTheme); break;
+    default: home(view);
+  }
+  if (showBack) view.insertAdjacentHTML('afterbegin', `<button class="btn ghost sm" id="bk" aria-label="Назад" style="margin-bottom:12px">${icon('back')} Назад</button>`), $('#bk').onclick = () => history.back();
+  if (r === 'profile' && adminMod.isOwner()) view.insertAdjacentHTML('beforeend', `<a class="btn block" href="#/admin" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;text-decoration:none">${icon('shield')} ADMIN PANEL <span class="badge">OWNER</span></a>`);
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('click', e => { if (e.target.closest('a,button')) { haptic('light'); sfx('tap'); } }, true);
+// Browsers block audio until a user gesture
+document.addEventListener('pointerdown', () => startMusic(), { once: true });
+route();
+// Welcome & legal window: first launch, or when the documents version changed. Never blocks the app on errors.
+if (!terms.accepted()) showWelcome();
+// Try online mode (Telegram + Supabase configured). Falls back to local demo silently.
+api.init().then(async ok => { if (!ok) return; if (await terms.syncTerms()) closeWelcome(); await adminMod.checkOwner(); route(); });
+
+Object.assign(__exp, { applyTheme });
+return __exp;
+})();
+})();
+</script>
+</body>
+</html>
